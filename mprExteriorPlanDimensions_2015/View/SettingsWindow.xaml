@@ -1,0 +1,119 @@
+﻿<controls:MetroWindow x:Class="mprExteriorPlanDimensions.View.SettingsWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      SizeToContent="WidthAndHeight" Loaded="SettingsWindow_OnLoaded"
+                      Closed="SettingsWindow_OnClosed"
+                      WindowStartupLocation="CenterScreen" SaveWindowPosition="True"
+                      ShowTitleBar="False" ShowCloseButton="True" ShowMaxRestoreButton="False"
+                      ShowMinButton="False" ResizeMode="NoResize">
+    <controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ModPlusAPI;component/Windows/WinResources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Path x:Key="LibraryPlus" Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Fill="Black" />
+            <Path x:Key="Pencil" Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" Fill="Black" />
+            <Path x:Key="Delete" Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Fill="Black" />
+        </ResourceDictionary>
+    </controls:MetroWindow.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="16" Margin="0,0,20,5" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown">НАСТРОЙКИ НАРУЖНЫХ РАЗМЕРОВ</TextBlock>
+        <!--Configuration-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="2"
+                       Text="Текущая рабочая конфигурация наружных размеров на плане:"></TextBlock>
+            <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Name="CbExteriorConfigurations"
+                      Margin="2"
+                      SelectionChanged="CbExteriorConfigurations_OnSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Row="2" Grid.Column="0" Padding="3" ToolTip="Редактировать текущую конфигурацию"
+                    Name="BtEditExteriorConfiguration" HorizontalAlignment="Stretch"
+                    Click="BtEditExteriorConfiguration_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Height="18" Width="18" Fill="{DynamicResource BlackBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource Pencil}"></VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Редактировать" Margin="15,3,3,3"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="1" Padding="3" HorizontalAlignment="Stretch"
+                    Name="BtAddNewExteriorConfiguration"
+                    Click="BtAddNewExteriorConfiguration_OnClick"
+                    ToolTip="Создать новую конфигурацию">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Height="18" Width="18" Fill="{DynamicResource BlackBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource LibraryPlus}"></VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Создать" Margin="15,3,3,3"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="2" Padding="3" HorizontalAlignment="Stretch"
+                    Name="BtDeleteExteriorConfiguration"
+                    Click="BtDeleteExteriorConfiguration_OnClick"
+                    ToolTip="Удалить текущую конфигурацию">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Height="18" Width="12" Fill="{DynamicResource BlackBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource Delete}"></VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Удалить" Margin="15,3,3,3"></TextBlock>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <!--Settings-->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="2">
+                <TextBlock BaselineOffset="21" Text="Обрабатывать стены толщиной от " Margin="0"></TextBlock>
+                <TextBox Margin="0" Width="40" Name="TbMinWallWidth" TextChanged="TextBoxBase_OnTextChanged"></TextBox>
+                <TextBlock BaselineOffset="21" Text="мм" Margin="0"></TextBlock>
+            </TextBlock>
+            <TextBlock Grid.Row="1" Margin="2">
+                <TextBlock BaselineOffset="21" Margin="0" Text="При расстоянии между гранями меньше "></TextBlock>
+                <TextBox Width="40" Margin="0" TextChanged="TextBoxBase_OnTextChanged"
+                         Name="TbExteriorFaceMinWidthBetween"></TextBox>
+                <TextBlock BaselineOffset="21" Margin="0" Text=" исключать "></TextBlock>
+                <ComboBox Margin="0" Width="110" Name="CbExteriorMinWidthFaceRemove">
+                    <ComboBoxItem>наименьшую</ComboBoxItem>
+                    <ComboBoxItem>наибольшую</ComboBoxItem>
+                </ComboBox>
+                <TextBlock BaselineOffset="21" Margin="0" Text=" грань"></TextBlock>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</controls:MetroWindow>
+
