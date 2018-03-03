@@ -1,33 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using mprExteriorPlanDimensions.Body;
 using mprExteriorPlanDimensions.Configurations;
 using ModPlusAPI;
 using ModPlusAPI.Windows;
-using ModPlusAPI.Windows.Helpers;
-using MessageBox = System.Windows.MessageBox;
 
 namespace mprExteriorPlanDimensions.View
 {
     public partial class SettingsWindow 
     {
+        private const string LangItem = "mprExteriorPlanDimensions";
+
         public SettingsWindow()
         {
             InitializeComponent();
-            this.OnWindowStartUp();
+            Title = ModPlusAPI.Language.GetItem(LangItem, "h1");
         }
         private ObservableCollection<ExteriorConfiguration> _exteriorConfigurations;
         private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -104,7 +94,7 @@ namespace mprExteriorPlanDimensions.View
             Hide();
             try
             {
-                ExteriorConfigurationWin win = new ExteriorConfigurationWin { TbWinTitle = { Text = "СОЗДАНИЕ КОНФИГУРАЦИИ ДЛЯ НАРУЖНЫХ РАЗМЕРОВ" } };
+                ExteriorConfigurationWin win = new ExteriorConfigurationWin { Title =  ModPlusAPI.Language.GetItem(LangItem, "h11") };
                 var result = win.ShowDialog();
                 if (result == true)
                 {
@@ -135,7 +125,7 @@ namespace mprExteriorPlanDimensions.View
                 var selected = (ExteriorConfiguration)CbExteriorConfigurations.SelectedItem;
                 var selectedIndex = CbExteriorConfigurations.SelectedIndex;
 
-                ExteriorConfigurationWin win = new ExteriorConfigurationWin(selected) { TbWinTitle = { Text = "РЕДАКТИРОВАНИЕ КОНФИГУРАЦИИ ДЛЯ НАРУЖНЫХ РАЗМЕРОВ" } };
+                ExteriorConfigurationWin win = new ExteriorConfigurationWin(selected) { Title =  ModPlusAPI.Language.GetItem(LangItem, "h15")  };
                 var result = win.ShowDialog();
                 if (result == true)
                 {
@@ -161,10 +151,11 @@ namespace mprExteriorPlanDimensions.View
             if (CbExteriorConfigurations.SelectedIndex == -1) return;
             var selected = (ExteriorConfiguration)CbExteriorConfigurations.SelectedItem;
             var selectedIndex = CbExteriorConfigurations.SelectedIndex;
-            if (MessageBox.Show(
-                    "Конфигурация \"" + selected.Name + "\" будет удалена безвозратно!" + Environment.NewLine +
-                    "Уверены?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question)
-                == MessageBoxResult.Yes)
+            if (ModPlusAPI.Windows.MessageBox.ShowYesNo(
+                    ModPlusAPI.Language.GetItem(LangItem, "h12") + " \"" + selected.Name + "\" " +
+                    ModPlusAPI.Language.GetItem(LangItem, "h13") + Environment.NewLine +
+                    ModPlusAPI.Language.GetItem(LangItem, "h14"),
+                    ModPlusAPI.Language.GetItem(LangItem, "attention")))
             {
                 _exteriorConfigurations.RemoveAt(selectedIndex);
                 CbExteriorConfigurations.ItemsSource = _exteriorConfigurations;
@@ -178,12 +169,7 @@ namespace mprExteriorPlanDimensions.View
                 }
             }
         }
-
-
-        private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
+        
         // only integers
         private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
         {

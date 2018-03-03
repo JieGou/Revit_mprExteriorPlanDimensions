@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Xml.Linq;
+using ModPlusAPI;
 
 namespace mprExteriorPlanDimensions.Configurations
 {
@@ -9,6 +10,7 @@ namespace mprExteriorPlanDimensions.Configurations
     /// <summary>Конфигурация образмеривания наружных стен </summary>
     public class ExteriorConfiguration : BaseConfiguration
     {
+        private const string LangItem = "mprExteriorPlanDimensions";
         #region Constructor
 
         public ExteriorConfiguration()
@@ -98,7 +100,7 @@ namespace mprExteriorPlanDimensions.Configurations
 
                 return exteriorConfiguration;
             }
-            throw new Exception("Отсутствует атрибут ID");
+            throw new Exception(Language.GetItem(LangItem, "msg3"));
         }
         /// <summary>Получение XElement из экземпляра конфигурации для наружных стен</summary>
         /// <returns></returns>
@@ -130,7 +132,7 @@ namespace mprExteriorPlanDimensions.Configurations
             if (Chains.Any())
                 for (int i = 0; i < Chains.Count; i++)
                 {
-                    Chains[i].DisplayName = "Цепочка размеров №" + (i + 1);
+                    Chains[i].DisplayName = Language.GetItem(LangItem, "msg4") + (i + 1);
                 }
         }
 

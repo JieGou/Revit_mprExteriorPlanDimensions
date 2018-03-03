@@ -15,6 +15,7 @@ namespace mprExteriorPlanDimensions.Work
 {
     public class InsertExteriorDimensions
     {
+        private const string LangItem = "mprExteriorPlanDimensions";
         private readonly ExteriorConfiguration _exteriorConfiguration;
         private readonly UIApplication _uiApplication;
         private readonly List<AdvancedWall> _advancedWalls;
@@ -52,14 +53,14 @@ namespace mprExteriorPlanDimensions.Work
             }
             if (!_advancedWalls.Any())
             {
-                MessageBox.Show("Не удалось создать рабочий список стен!", MessageBoxIcon.Close);
+                MessageBox.Show(Language.GetItem(LangItem, "msg7"), MessageBoxIcon.Close);
                 return;
             }
             // Фильтрую стены по толщине
             AdvancedHelpers.FilterByWallWidth(_advancedWalls);
             if (!_advancedWalls.Any())
             {
-                MessageBox.Show("В указанном наборе нет стен, подходящих по минимально допустимой толщине!", MessageBoxIcon.Close);
+                MessageBox.Show(Language.GetItem(LangItem, "msg8"), MessageBoxIcon.Close);
                 return;
             }
             // Фильтрую стены, оставляя которые пересекаются секущим диапазоном
@@ -67,8 +68,7 @@ namespace mprExteriorPlanDimensions.Work
             // Вдруг после этого не осталось стен!
             if (!_advancedWalls.Any())
             {
-                MessageBox.Show(
-                    "В указанном наборе нет стен, пересекаемых секущей плоскостью секущего диапазоном вида!", MessageBoxIcon.Close);
+                MessageBox.Show(Language.GetItem(LangItem, "msg9"), MessageBoxIcon.Close);
                 return;
             }
             //ExportGeometryToXml.ExportAdvancedWallsFaces(_advancedWalls, "selected walls");
@@ -108,9 +108,9 @@ namespace mprExteriorPlanDimensions.Work
                 var selection = _uiApplication.ActiveUIDocument.Selection;
                 while (true)
                 {
-                    var result = selection.PickElementsByRectangle(new WallAndGridsFilter(), "Выберите стены и оси");
+                    var result = selection.PickElementsByRectangle(new WallAndGridsFilter(), Language.GetItem(LangItem, "msg10"));
                     if (result.Count <= 1)
-                        MessageBox.Show("Нужно выбрать больше одного элемента!", MessageBoxIcon.Alert);
+                        MessageBox.Show(Language.GetItem(LangItem, "msg11"), MessageBoxIcon.Alert);
                     else return result;
                 }
             }
@@ -139,7 +139,7 @@ namespace mprExteriorPlanDimensions.Work
 
                 if (chainDimensionLine == null)
                 {
-                    MessageBox.Show("Не удалось создать размерную линию!", MessageBoxIcon.Close);
+                    MessageBox.Show(Language.GetItem(LangItem, "msg12"), MessageBoxIcon.Close);
                     continue;
                 }
 

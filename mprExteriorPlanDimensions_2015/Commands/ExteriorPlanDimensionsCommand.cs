@@ -16,6 +16,7 @@ namespace mprExteriorPlanDimensions.Commands
     [Regeneration(RegenerationOption.Manual)]
     public class ExteriorPlanDimensionsCommand : IExternalCommand
     {
+        private const string LangItem = "mprExteriorPlanDimensions";
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             try
@@ -37,9 +38,7 @@ namespace mprExteriorPlanDimensions.Commands
                     }
                     else
                     {
-                        if (MessageBox.ShowYesNo(
-                            "Отсутствуют рабочие конфигурации" + Environment.NewLine +
-                            "Открыть настройку рабочих конфигураций?", MessageBoxIcon.Question))
+                        if (MessageBox.ShowYesNo(Language.GetItem(LangItem, "msg5"), MessageBoxIcon.Question))
                         {
                             SettingsWindow settings = new SettingsWindow();
                             settings.ShowDialog();
@@ -48,7 +47,7 @@ namespace mprExteriorPlanDimensions.Commands
                 }
                 else
                 {
-                    MessageBox.Show("Нужно перейти на план этажа!", MessageBoxIcon.Alert);
+                    MessageBox.Show(Language.GetItem(LangItem, "msg6"), MessageBoxIcon.Alert);
                 }
 
                 return Result.Succeeded;

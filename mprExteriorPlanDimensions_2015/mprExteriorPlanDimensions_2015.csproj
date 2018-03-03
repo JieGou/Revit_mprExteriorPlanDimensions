@@ -62,7 +62,6 @@
     <Compile Include="Body\Enumerators\ElementCurveType.cs" />
     <Compile Include="Body\Enumerators\ElementOrientation.cs" />
     <Compile Include="Body\Enumerators\ExtremeWallVariant.cs" />
-    <Compile Include="Body\ExportGeometryToXml.cs" />
     <Compile Include="Body\GeometryHelpers.cs" />
     <Compile Include="Body\SelectionFilters\WallAndGridsFilter.cs" />
     <Compile Include="Body\SettingsFile.cs" />

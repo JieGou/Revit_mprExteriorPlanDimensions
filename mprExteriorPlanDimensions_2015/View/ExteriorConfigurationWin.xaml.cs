@@ -1,26 +1,19 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using mprExteriorPlanDimensions.Configurations;
-using ModPlusAPI.Windows.Helpers;
-using MessageBox = ModPlusAPI.Windows.MessageBox;
 
 namespace mprExteriorPlanDimensions.View
 {
     public partial class ExteriorConfigurationWin
     {
+        private const string LangItem = "mprExteriorPlanDimensions";
         public ExteriorConfiguration CurrentExteriorConfiguration;
         public ExteriorConfigurationWin(ExteriorConfiguration exteriorConfiguration = null)
         {
             InitializeComponent();
-            this.OnWindowStartUp();
             CurrentExteriorConfiguration = exteriorConfiguration ?? new ExteriorConfiguration();
         }
-
-        private void ExteriorConfiguration_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
+        
         private void ExteriorConfiguration_OnLoaded(object sender, RoutedEventArgs e)
         {
             SizeToContent = SizeToContent.Manual;
@@ -31,7 +24,7 @@ namespace mprExteriorPlanDimensions.View
         {
             if (string.IsNullOrEmpty(CurrentExteriorConfiguration.Name))
             {
-                MessageBox.Show("Нужно указать название конфигурации!");
+                ModPlusAPI.Windows.MessageBox.Show(ModPlusAPI.Language.GetItem(LangItem, "msg1"));
                 return;
             }
             if (!CurrentExteriorConfiguration.BottomDimensions &&
@@ -39,7 +32,7 @@ namespace mprExteriorPlanDimensions.View
                 !CurrentExteriorConfiguration.RightDimensions &&
                 !CurrentExteriorConfiguration.TopDimensions)
             {
-                MessageBox.Show("Нужно указать хотя бы одну сторону установки размеров!");
+                ModPlusAPI.Windows.MessageBox.Show(ModPlusAPI.Language.GetItem(LangItem, "msg2"));
                 return;
             }
             

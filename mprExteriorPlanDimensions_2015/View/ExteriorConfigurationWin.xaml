@@ -1,26 +1,17 @@
-﻿<controls:MetroWindow x:Class="mprExteriorPlanDimensions.View.ExteriorConfigurationWin"
+﻿<mpc:BaseMetroWindow x:Class="mprExteriorPlanDimensions.View.ExteriorConfigurationWin"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:configurations="clr-namespace:mprExteriorPlanDimensions.Configurations"
+                      xmlns:mpc="clr-namespace:ModPlusAPI.Windows.Mpc;assembly=ModPlusAPI"
                       SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip"
-                      ShowMinButton="False" ShowMaxRestoreButton="False"
-                      MinWidth="1050" MinHeight="429" BorderThickness="1"
-                      BorderBrush="{DynamicResource AccentBaseColorBrush}"
-                      WindowStartupLocation="CenterScreen" 
-                      MouseLeftButtonDown="ExteriorConfiguration_OnMouseLeftButtonDown"
+                      MinWidth="1050" MinHeight="429" 
                       PreviewKeyDown="ExteriorConfigurationWin_OnPreviewKeyDown"
-                      Loaded="ExteriorConfiguration_OnLoaded" ShowTitleBar="False"
-                      SaveWindowPosition="True">
+                      Loaded="ExteriorConfiguration_OnLoaded">
 
-    <controls:MetroWindow.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ModPlusAPI;component/Windows/WinResources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -29,24 +20,24 @@
                     <TranslateTransform X="-4.592408" Y="-19.801517"/>
                 </Canvas.RenderTransform>
                 <Path Data="m 31.75 48.291667 v 37.041667 h 68.79167 V 48.291667 Z" Fill="Transparent"
-                      Stroke="Black" StrokeThickness="1"></Path>
+                      Stroke="{DynamicResource BlackBrush}" StrokeThickness="1"></Path>
                 <!--Grids-->
-                <Path Data="M 39.6875 29.770834 V 106.5" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
-                <Path Data="M 92.604166 29.770834 V 106.5" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
-                <Path Data="M 14.552076 56.229167 H 117.73958" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
-                <Path Data="M 14.552076 77.395834 H 117.73958" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
-                <Path Data="m 66.145832 106.5 v 0 -76.729166" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
+                <Path Data="M 39.6875 29.770834 V 106.5" Stroke="{DynamicResource BlackBrush}" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
+                <Path Data="M 92.604166 29.770834 V 106.5" Stroke="{DynamicResource BlackBrush}" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
+                <Path Data="M 14.552076 56.229167 H 117.73958" Stroke="{DynamicResource BlackBrush}" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
+                <Path Data="M 14.552076 77.395834 H 117.73958" Stroke="{DynamicResource BlackBrush}" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
+                <Path Data="m 66.145832 106.5 v 0 -76.729166" Stroke="{DynamicResource BlackBrush}" StrokeThickness="0.5" StrokeDashArray="25, 5, 2.5, 5"></Path>
                 <!--Circles-->
-                <Ellipse Canvas.Left="34.8" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="61.2" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="87.8" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="34.9" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="61.3" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="87.9" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="117.7" Canvas.Top="72.5" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="117.7" Canvas.Top="51.3" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="4.7" Canvas.Top="72.5" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
-                <Ellipse Canvas.Left="4.7" Canvas.Top="51.3" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="Black"></Ellipse>
+                <Ellipse Canvas.Left="34.8" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="61.2" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="87.8" Canvas.Top="106.6" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="34.9" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="61.3" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="87.9" Canvas.Top="19.9" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="117.7" Canvas.Top="72.5" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="117.7" Canvas.Top="51.3" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="4.7" Canvas.Top="72.5" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
+                <Ellipse Canvas.Left="4.7" Canvas.Top="51.3" Width="9.8" Height="9.8" StrokeThickness="0.5" Stroke="{DynamicResource BlackBrush}"></Ellipse>
             </Canvas>
             <Canvas x:Key="BottomDimensions" Width="123.02905" Height="96.68586">
                 <Canvas.RenderTransform>
@@ -111,241 +102,235 @@
                 <Path Data="m 23.8125 84.010412 2.645833 2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
             </Canvas>
             <Path x:Key="Help" Data="M11,18H13V16H11V18M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" Fill="Black" />
-            <Canvas x:Key="AppbarListAddBelow" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                <Path Width="39" Height="31" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="#FF000000" Data="F1 M 19,42L 19,34L 27,34L 27,42L 19,42 Z M 30.9999,42L 30.9999,34L 56.9999,34L 56.9999,42L 30.9999,42 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z M 32,46L 32,52L 56,52L 56,46L 32,46 Z M 21,44L 25,44L 25,47L 28,47L 28,51L 25,51L 25,54L 21,54L 21,51L 18,51L 18,47L 21,47L 21,44 Z M 22,45L 22,48L 19,48L 19,50L 22,50L 22,53L 24,53L 24,50L 27,50L 27,48L 24,48L 24,45L 22,45 Z M 19.0001,31L 19.0001,23L 27.0001,23L 27.0001,31L 19.0001,31 Z M 31.0001,31L 31.0001,23L 57,23L 57,31L 31.0001,31 Z "/>
-            </Canvas>
             <Path x:Key="Delete" Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Fill="Black" />
+            <XmlDataProvider x:Key="Lang" Source="E:/ModPlus/Languages/en-US.xml" XPath="ModPlus/mprExteriorPlanDimensions" />
         </ResourceDictionary>
-    </controls:MetroWindow.Resources>
+    </Window.Resources>
 
-    <Grid Margin="5">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" FontSize="16" Margin="0,0,20,0" Name="TbWinTitle"></TextBlock>
-        <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Name-->
+        <TextBox Grid.Row="0" Grid.Column="0" Width="416" TextWrapping="Wrap"
+                 Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 mah:TextBoxHelper.Watermark="{Binding Source={StaticResource Lang}, XPath=h16}"
+                 mah:TextBoxHelper.UseFloatingWatermark="True"
+                 mah:TextBoxHelper.ClearTextButton="True"></TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="{Binding Source={StaticResource Lang}, XPath=h17}" HorizontalAlignment="Center"></TextBlock>
+        <!-- Directions -->
+        <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <!--Name-->
-            <TextBox Grid.Row="0" Grid.Column="0" Width="416" TextWrapping="Wrap"
-                     Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     controls:TextBoxHelper.Watermark="Название конфигурации"
-                     controls:TextBoxHelper.UseFloatingWatermark="True"
-                     controls:TextBoxHelper.ClearTextButton="True"></TextBox>
-            <TextBlock Grid.Row="1" Grid.Column="0"
-                       Text="Сторона установки размеров:" HorizontalAlignment="Center"></TextBlock>
-            <!-- Directions -->
-            <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource Plan}" Width="280"
-                         ></Viewbox>
-                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource BottomDimensions}"
-                         Width="280"
-                         Visibility="{Binding IsChecked, 
+            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource Plan}" Width="280"></Viewbox>
+            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource BottomDimensions}"
+                     Width="280" Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtBottomDimensions}"></Viewbox>
-                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource TopDimensions}"
-                         Width="280"
-                         Visibility="{Binding IsChecked, 
-                    Converter={StaticResource BooleanToVisibilityConverter},
+            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource TopDimensions}"
+                     Width="280" Visibility="{Binding IsChecked, 
+                Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtTopDimensions}"></Viewbox>
-                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource RightDimensions}"
+            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource RightDimensions}"
                          Width="280"
                          Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtRightDimensions}"></Viewbox>
-                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource LeftDimensions}"
-                         Width="280"
-                         Visibility="{Binding IsChecked, 
+            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource LeftDimensions}"
+                         Width="280" Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtLeftDimensions}"></Viewbox>
-                <controls:ToggleSwitchButton Grid.Row="0" Grid.Column="1" Name="BtTopDimensions" 
-                                             IsChecked="{Binding Path=TopDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:ToggleSwitchButton>
-                <controls:ToggleSwitchButton Grid.Row="1" Grid.Column="0" Name="BtLeftDimensions"
-                                             IsChecked="{Binding Path=LeftDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:ToggleSwitchButton>
-                <controls:ToggleSwitchButton Grid.Row="1" Grid.Column="2" Name="BtRightDimensions"
-                                             IsChecked="{Binding Path=RightDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:ToggleSwitchButton>
-                <controls:ToggleSwitchButton Grid.Row="2" Grid.Column="1" Name="BtBottomDimensions" 
-                                             IsChecked="{Binding Path=BottomDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:ToggleSwitchButton>
-            </Grid>
-            
-            <!-- Header -->
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="РАЗМЕРНЫЕ ЦЕПОЧКИ:" HorizontalAlignment="Center"
-                       FontSize="16" Foreground="{DynamicResource AccentBaseColorBrush}"></TextBlock>
-            <!-- Chains -->
-            <DataGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="2"
-                      Name="DgChains"
-                      BorderBrush="{DynamicResource AccentBaseColorBrush}"
-                      BorderThickness="1" AutoGenerateColumns="False"
-                      ItemsSource="{Binding Path=Chains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False"
-                      SelectionMode="Single" GridLinesVisibility="All">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Path=DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        IsReadOnly="True" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTextColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Rectangle Fill="{DynamicResource BlackBrush}" Stretch="Fill" Height="18" Width="18"
-                                           ToolTipService.InitialShowDelay="0"
-                                           ToolTipService.ShowDuration="60000">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource Help}"></VisualBrush>
-                                    </Rectangle.OpacityMask>
-                                    <Rectangle.ToolTip>
-                                        <ToolTip>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Отступ" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - отступ размерной линии от предыдущего элемента:"></TextBlock>
+            <mah:ToggleSwitchButton Grid.Row="0" Grid.Column="1" Name="BtTopDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
+                                    Margin="5"
+                                    IsChecked="{Binding Path=TopDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
+            <mah:ToggleSwitchButton Grid.Row="1" Grid.Column="0" Name="BtLeftDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
+                                    Margin="5"
+                                    IsChecked="{Binding Path=LeftDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
+            <mah:ToggleSwitchButton Grid.Row="1" Grid.Column="2" Name="BtRightDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
+                                    Margin="5"
+                                    IsChecked="{Binding Path=RightDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
+            <mah:ToggleSwitchButton Grid.Row="2" Grid.Column="1" Name="BtBottomDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
+                                    Margin="5"
+                                    IsChecked="{Binding Path=BottomDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
+        </Grid>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Source={StaticResource Lang}, XPath=h18}"
+                   HorizontalAlignment="Center"
+                   FontSize="16" Foreground="{DynamicResource AccentBaseColorBrush}"></TextBlock>
+        <!-- Chains -->
+        <DataGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="2"
+                  Name="DgChains" BorderBrush="{DynamicResource AccentBaseColorBrush}"
+                  BorderThickness="1" AutoGenerateColumns="False"
+                  ItemsSource="{Binding Path=Chains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False"
+                  SelectionMode="Single" GridLinesVisibility="All">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsReadOnly="True" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="{DynamicResource BlackBrush}" Stretch="Fill" Height="18" Width="18"
+                                       ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="60000">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource Help}"></VisualBrush>
+                                </Rectangle.OpacityMask>
+                                <Rectangle.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d1}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d2}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock Text="Для первой размерной цепочки отступ задается от крайней выбранной стены"></TextBlock>
-                                                <TextBlock Text="Для последующих размерных цепочек отступ задается от предыдущей размерной цепочки"></TextBlock>
-                                                <TextBlock Text="Отступ задается в мм в натуральных единицах"></TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Стены" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по стенам:"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d3}"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d4}"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d5}"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d6}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d7}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock Text="Простановка габаритных размеров стен в заданном направлении"></TextBlock>
-                                                <TextBlock Text="Т.е. вертикальных стен для направления слева/справа, горизонтальных - снизу/сверху"></TextBlock>
-                                                <TextBlock Text="Открывает возможность выбрать варианты &quot;Проемы&quot; и &quot;Пересекающиеся стены&quot;"></TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Проемы" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по проемам стен в заданном направлении"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d8}"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d9}"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d10}"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d11}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d12}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Пересек. стены" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по пересекающимся стенам:"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d13}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d14}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock Text="Размеры ставятся по стенам, являющимися перпендикулярными к текущему направлению"></TextBlock>
-                                                <TextBlock Text="и пересекающими все стены в заданном направлении"></TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Оси" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по осям, перпендикулярным данному направлению"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d15}"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d16}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d17}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Крайние оси" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по крайним осям, перпендикулярным данному направлению:"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d18}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d19}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock Text="Данный вариант отключает возможность простановки размеров по стенам"></TextBlock>
-                                                <TextBlock FontSize="14">
-                                                    <TextBlock Text="Габарит" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text=" - простановка размеров по габариту данного направления:"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d20}"></TextBlock>
+                                            <TextBlock FontSize="14">
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d21}" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d22}"></TextBlock>
                                                 </TextBlock>
-                                                <TextBlock Text="Габарит в данном направлении - это расстояние от крайних граней крайних стен"></TextBlock>
-                                                <TextBlock Text="Данный вариант отключает все остальные варианты"></TextBlock>
-                                            </StackPanel>
-                                        </ToolTip>
-                                    </Rectangle.ToolTip>
-                                </Rectangle>
-                            </DataTemplate>
-                        </DataGridTextColumn.HeaderTemplate>
-                    </DataGridTextColumn>
-                    <DataGridComboBoxColumn Header="Отступ" ItemsSource="{Binding Source={x:Static configurations:Constants.ElementOffsets}}"
-                                            SelectedItemBinding="{Binding Path=ElementOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    </DataGridComboBoxColumn>
-                    <DataGridTemplateColumn Header="Стены" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Walls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
-                                          ></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Проемы" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Openings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d23}"></TextBlock>
+                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d24}"></TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Rectangle.ToolTip>
+                            </Rectangle>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn Header="{Binding Source={StaticResource Lang}, XPath=d1}"
+                                        ItemsSource="{Binding Source={x:Static configurations:Constants.ElementOffsets}}"
+                                        SelectedItemBinding="{Binding Path=ElementOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                </DataGridComboBoxColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d6}"
+                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Walls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d11}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Openings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           Visibility="{Binding Path=IntersectingWallsAndOpeningsVisibility, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Пересек. стены" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IntersectingWalls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d13}" 
+                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IntersectingWalls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           Visibility="{Binding Path=IntersectingWallsAndOpeningsVisibility, UpdateSourceTrigger=PropertyChanged}"
                                           ></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Оси" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Grids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d16}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Grids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d18}"
+                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=ExtremeGrids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           ></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Крайние Оси" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=ExtremeGrids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
-                                          ></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Габарит" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Overall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
-                                ></CheckBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Name="BtDeleteSelectedChain" Padding="0" BorderThickness="0"
-                                        ToolTip="Удалить цепочку размеров" Click="BtDeleteSelectedChain_OnClick">
-                                    <Rectangle Fill="{DynamicResource BlackBrush}"
-                                               Width="12" Height="18">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Visual="{StaticResource Delete}"></VisualBrush>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource SquareMetroButton}" TargetType="{x:Type Button}">
-                                            <Setter Property="Visibility" Value="Hidden"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}"
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d21}"
+                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Overall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="BtDeleteSelectedChain" Padding="0" BorderThickness="0"
+                                    ToolTip="{Binding Source={StaticResource Lang}, XPath=h19}"
+                                    Click="BtDeleteSelectedChain_OnClick" Margin="5">
+                                <Rectangle Fill="{DynamicResource BlackBrush}" Width="12" Height="18">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource Delete}"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource SquareMetroButton}" TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}"
                                                              Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <!-- Buttons -->
-            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="2"
+                                                <Setter Property="Visibility" Value="Visible"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!-- Buttons -->
+        <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="2"
                     Click="BtAddRow_OnClick" SnapsToDevicePixels="True"
-                    Content="Добавить размерную цепочку"></Button>
-            <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="2,2,10,2"
-                    Content="Принять" Name="BtAccept" Click="BtAccept_OnClick"></Button>
-        </Grid>
+                    Content="{Binding Source={StaticResource Lang}, XPath=h20}"></Button>
+        <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="2,2,10,2"
+                    Content="{Binding Source={StaticResource Lang}, XPath=accept}" Name="BtAccept" Click="BtAccept_OnClick"></Button>
     </Grid>
 
-</controls:MetroWindow>
+</mpc:BaseMetroWindow>

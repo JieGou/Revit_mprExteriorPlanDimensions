@@ -597,16 +597,6 @@ namespace mprExteriorPlanDimensions.Body
                         Solid solid = gGeomObject as Solid;
                         if (solid != null)
                         {
-                            //foreach (Edge edge in solid.Edges)
-                            //{
-                            //    string stableRef = edge.Reference.ConvertToStableRepresentation(dbDoc);
-
-                            //    if (stableRef == stableRefInst)
-                            //    {
-                            //        instFace = edge;
-                            //        break;
-                            //    }
-                            //}
                             foreach (Face face in solid.Faces)
                             {
                                 string stableRef = face.Reference.ConvertToStableRepresentation(dbDoc);

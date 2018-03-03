@@ -76,9 +76,6 @@
     <Compile Include="..\mprExteriorPlanDimensions_2015\Body\Enumerators\ExtremeWallVariant.cs">
       <Link>Body\Enumerators\ExtremeWallVariant.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\ExportGeometryToXml.cs">
-      <Link>Body\ExportGeometryToXml.cs</Link>
-    </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\Body\GeometryHelpers.cs">
       <Link>Body\GeometryHelpers.cs</Link>
     </Compile>
