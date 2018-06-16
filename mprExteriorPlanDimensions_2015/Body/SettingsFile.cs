@@ -12,7 +12,7 @@ namespace mprExteriorPlanDimensions.Body
         /// <summary>Инициализация файлна настроек - создание нового в случае отсутсвия</summary>
         public static void InitSettingsFile()
         {
-            var configDirectory = Path.Combine(ModPlusAPI.Constants.CurrentDirectory, "UserData", "DimConfigurations");
+            var configDirectory = Path.Combine(ModPlusAPI.Constants.UserDataDirectory, "DimConfigurations");
             if (!Directory.Exists(configDirectory))
                 Directory.CreateDirectory(configDirectory);
             var file = Path.Combine(configDirectory, "ExteriorPlanDimensions.xml");
