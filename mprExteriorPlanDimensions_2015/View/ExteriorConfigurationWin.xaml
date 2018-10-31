@@ -1,18 +1,17 @@
-﻿<mpc:BaseMetroWindow x:Class="mprExteriorPlanDimensions.View.ExteriorConfigurationWin"
+﻿<mps:ModPlusWindow x:Class="mprExteriorPlanDimensions.View.ExteriorConfigurationWin"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:configurations="clr-namespace:mprExteriorPlanDimensions.Configurations"
-                      xmlns:mpc="clr-namespace:ModPlusAPI.Windows.Mpc;assembly=ModPlusAPI"
+                      xmlns:mps="https://modplus.org/winfx/xaml/controls"
                       SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip"
-                      MinWidth="1050" MinHeight="429" 
+                      MinWidth="1100" MinHeight="420" 
                       PreviewKeyDown="ExteriorConfigurationWin_OnPreviewKeyDown"
                       Loaded="ExteriorConfiguration_OnLoaded">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ModPlusAPI;component/Windows/WinResources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ModPlusStyle;component/Styles/Controls.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <Canvas x:Key="Plan" Width="123.02905" Height="96.68586">
@@ -43,67 +42,67 @@
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-4.592408" Y="-19.801517"/>
                 </Canvas.RenderTransform>
-                <Path Data="M 37.041666 102.53125 H 95.249999" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 38.364583 103.85417 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="M 64.822917 97.23959 67.46875 94.59375" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 91.28125 103.85417 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 38.364583 97.239583 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 91.28125 97.239583 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="M 29.104167 95.916663 H 103.1875" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="M 31.75 87.979162 V 98.562495" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="M 100.54167 87.979162 V 98.562495" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 30.427083 97.239578 2.645834 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 99.218749 97.239578 2.645831 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 37.041666 102.53125 H 95.249999" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 38.364583 103.85417 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 64.822917 97.23959 67.46875 94.59375" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 91.28125 103.85417 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 38.364583 97.239583 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 91.28125 97.239583 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 29.104167 95.916663 H 103.1875" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="M 31.75 87.979162 V 98.562495" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="M 100.54167 87.979162 V 98.562495" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 30.427083 97.239578 2.645834 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 99.218749 97.239578 2.645831 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
             </Canvas>
             <Canvas x:Key="TopDimensions" Width="123.02905" Height="96.68586">
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-4.592408" Y="-19.801517"/>
                 </Canvas.RenderTransform>
-                <Path Data="M 37.041666 33.739587 H 95.249999" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 38.364583 35.062507 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 91.28125 35.062507 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 64.822917 41.677097 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="M 29.104167 40.35417 H 103.1875" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 38.364583 41.67709 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 91.28125 41.67709 2.645833 -2.64584" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 31.75 45.64583 v -7.9375" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 100.54167 45.64583 v -7.9375" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 99.218749 41.67708 2.645831 -2.645834" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 30.427083 41.67708 2.645834 -2.645834" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 37.041666 33.739587 H 95.249999" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 38.364583 35.062507 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 91.28125 35.062507 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 64.822917 41.677097 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 29.104167 40.35417 H 103.1875" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 38.364583 41.67709 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 91.28125 41.67709 2.645833 -2.64584" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 31.75 45.64583 v -7.9375" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 100.54167 45.64583 v -7.9375" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 99.218749 41.67708 2.645831 -2.645834" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 30.427083 41.67708 2.645834 -2.645834" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
             </Canvas>
             <Canvas x:Key="RightDimensions" Width="123.02905" Height="96.68586">
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-4.592408" Y="-19.801517"/>
                 </Canvas.RenderTransform>
-                <Path Data="M 113.77083 80.041667 V 53.583334" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="M 107.15625 87.979163 V 45.64583" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 115.09375 78.71875 -2.64584 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 108.47916 78.71875 v 0 l -2.64583 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 115.09375 57.552084 -2.64584 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 108.47916 57.552084 -2.64583 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 103.1875 48.291662 h 6.61458" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 103.1875 85.333328 h 6.61458" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 105.83333 84.010412 2.64584 2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 108.47917 49.614579 -2.64584 -2.645834" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 113.77083 80.041667 V 53.583334" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="M 107.15625 87.979163 V 45.64583" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 115.09375 78.71875 -2.64584 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 108.47916 78.71875 v 0 l -2.64583 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 115.09375 57.552084 -2.64584 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 108.47916 57.552084 -2.64583 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 103.1875 48.291662 h 6.61458" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 103.1875 85.333328 h 6.61458" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 105.83333 84.010412 2.64584 2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 108.47917 49.614579 -2.64584 -2.645834" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
             </Canvas>
             <Canvas x:Key="LeftDimensions" Width="123.02905" Height="96.68586">
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-4.592408" Y="-19.801517"/>
                 </Canvas.RenderTransform>
-                <Path Data="M 25.135413 87.979163 V 45.64583" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="M 18.520833 80.041667 V 53.583334" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 26.458333 78.71875 -2.64584 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 19.843743 78.71875 v 0 l -2.64583 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 26.458333 57.552084 -2.64584 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="m 19.843743 57.552084 -2.64583 -2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="M 29.104167 48.291662 H 22.489583" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="M 26.458333 49.614579 23.8125 46.968745" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
-                <Path Data="M 29.104167 85.333328 H 22.489583" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="0.5"></Path>
-                <Path Data="m 23.8125 84.010412 2.645833 2.645833" Stroke="{DynamicResource AccentBaseColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 25.135413 87.979163 V 45.64583" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="M 18.520833 80.041667 V 53.583334" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 26.458333 78.71875 -2.64584 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 19.843743 78.71875 v 0 l -2.64583 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 26.458333 57.552084 -2.64584 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="m 19.843743 57.552084 -2.64583 -2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 29.104167 48.291662 H 22.489583" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="M 26.458333 49.614579 23.8125 46.968745" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
+                <Path Data="M 29.104167 85.333328 H 22.489583" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="0.5"></Path>
+                <Path Data="m 23.8125 84.010412 2.645833 2.645833" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1.0"></Path>
             </Canvas>
             <Path x:Key="Help" Data="M11,18H13V16H11V18M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" Fill="Black" />
             <Path x:Key="Delete" Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Fill="Black" />
-            <XmlDataProvider x:Key="Lang" Source="E:/ModPlus/Languages/en-US.xml" XPath="ModPlus/mprExteriorPlanDimensions" />
+            <XmlDataProvider x:Key="Lang" Source="D:/ModPlus/Languages/en-US.xml" XPath="ModPlus/mprExteriorPlanDimensions" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -119,218 +118,225 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Name-->
-        <TextBox Grid.Row="0" Grid.Column="0" Width="416" TextWrapping="Wrap"
+        <TextBox Grid.Row="0" Grid.Column="0" MaxWidth="368" TextWrapping="Wrap"
                  Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 mah:TextBoxHelper.Watermark="{Binding Source={StaticResource Lang}, XPath=h16}"
-                 mah:TextBoxHelper.UseFloatingWatermark="True"
-                 mah:TextBoxHelper.ClearTextButton="True"></TextBox>
+                 mps:HintAssist.Hint="{Binding Source={StaticResource Lang}, XPath=h16}"
+                 mps:HintAssist.IsFloating="True"
+                 mps:TextFieldAssist.ClearTextButton="True"></TextBox>
         <TextBlock Grid.Row="1" Grid.Column="0"
                    Text="{Binding Source={StaticResource Lang}, XPath=h17}" HorizontalAlignment="Center"></TextBlock>
         <!-- Directions -->
-        <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource Plan}" Width="280"></Viewbox>
-            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource BottomDimensions}"
+        <mps:Card Grid.Row="2" Grid.Column="0" Grid.RowSpan="2">
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource Plan}" Width="280"></Viewbox>
+                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource BottomDimensions}"
                      Width="280" Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtBottomDimensions}"></Viewbox>
-            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource TopDimensions}"
+                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource TopDimensions}"
                      Width="280" Visibility="{Binding IsChecked, 
                 Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtTopDimensions}"></Viewbox>
-            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource RightDimensions}"
+                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource RightDimensions}"
                          Width="280"
                          Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtRightDimensions}"></Viewbox>
-            <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource LeftDimensions}"
+                <Viewbox Grid.Row="1" Grid.Column="1" Child="{StaticResource LeftDimensions}"
                          Width="280" Visibility="{Binding IsChecked, 
                     Converter={StaticResource BooleanToVisibilityConverter},
                     ElementName=BtLeftDimensions}"></Viewbox>
-            <mah:ToggleSwitchButton Grid.Row="0" Grid.Column="1" Name="BtTopDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
-                                    Margin="5"
-                                    IsChecked="{Binding Path=TopDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
-            <mah:ToggleSwitchButton Grid.Row="1" Grid.Column="0" Name="BtLeftDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
-                                    Margin="5"
-                                    IsChecked="{Binding Path=LeftDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
-            <mah:ToggleSwitchButton Grid.Row="1" Grid.Column="2" Name="BtRightDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
-                                    Margin="5"
-                                    IsChecked="{Binding Path=RightDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
-            <mah:ToggleSwitchButton Grid.Row="2" Grid.Column="1" Name="BtBottomDimensions" Style="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton.Win10}"
-                                    Margin="5"
-                                    IsChecked="{Binding Path=BottomDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></mah:ToggleSwitchButton>
-        </Grid>
-
-        <!-- Header -->
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Source={StaticResource Lang}, XPath=h18}"
-                   HorizontalAlignment="Center"
-                   FontSize="16" Foreground="{DynamicResource AccentBaseColorBrush}"></TextBlock>
-        <!-- Chains -->
-        <DataGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="2"
-                  Name="DgChains" BorderBrush="{DynamicResource AccentBaseColorBrush}"
-                  BorderThickness="1" AutoGenerateColumns="False"
+                <ToggleButton Grid.Row="0" Grid.Column="1" Name="BtTopDimensions" Margin="5 10"
+                          IsChecked="{Binding Path=TopDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ToggleButton>
+                <ToggleButton Grid.Row="1" Grid.Column="0" Name="BtLeftDimensions" Margin="5" 
+                          IsChecked="{Binding Path=LeftDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ToggleButton>
+                <ToggleButton Grid.Row="1" Grid.Column="2" Name="BtRightDimensions" Margin="5"
+                          IsChecked="{Binding Path=RightDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ToggleButton>
+                <ToggleButton Grid.Row="2" Grid.Column="1" Name="BtBottomDimensions" Margin="5 10"
+                          IsChecked="{Binding Path=BottomDimensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ToggleButton>
+            </Grid>
+        </mps:Card>
+        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- Header -->
+            <TextBlock Grid.Row="0" Text="{Binding Source={StaticResource Lang}, XPath=h18}"
+                   HorizontalAlignment="Center" FontSize="16"></TextBlock>
+            <!-- Chains -->
+            <DataGrid Grid.Row="1" Name="DgChains" AutoGenerateColumns="False"
                   ItemsSource="{Binding Path=Chains, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False"
-                  SelectionMode="Single" GridLinesVisibility="All">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  CanUserAddRows="False" CanUserSortColumns="False" 
+                  SelectionMode="Single" GridLinesVisibility="All"
+                  mps:DataGridAssist.CellPadding="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     IsReadOnly="True" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Rectangle Fill="{DynamicResource BlackBrush}" Stretch="Fill" Height="18" Width="18"
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Rectangle Fill="{DynamicResource BlackBrush}" Stretch="Fill" Height="18" Width="18"
                                        ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="60000">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource Help}"></VisualBrush>
-                                </Rectangle.OpacityMask>
-                                <Rectangle.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock FontSize="14">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource Help}"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                    <Rectangle.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d1}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d2}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d3}"></TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d4}"></TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d5}"></TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d3}"></TextBlock>
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d4}"></TextBlock>
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d5}"></TextBlock>
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d6}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d7}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d8}"></TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d9}"></TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d10}"></TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d8}"></TextBlock>
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d9}"></TextBlock>
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d10}"></TextBlock>
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d11}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d12}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d13}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d14}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d15}"></TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d15}"></TextBlock>
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d16}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d17}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d18}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d19}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d20}"></TextBlock>
-                                            <TextBlock FontSize="14">
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d20}"></TextBlock>
+                                                <TextBlock FontSize="14">
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d21}" FontWeight="Bold"></TextBlock>
                                                     <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d22}"></TextBlock>
                                                 </TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d23}"></TextBlock>
-                                            <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d24}"></TextBlock>
-                                        </StackPanel>
-                                    </ToolTip>
-                                </Rectangle.ToolTip>
-                            </Rectangle>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                <DataGridComboBoxColumn Header="{Binding Source={StaticResource Lang}, XPath=d1}"
-                                        ItemsSource="{Binding Source={x:Static configurations:Constants.ElementOffsets}}"
-                                        SelectedItemBinding="{Binding Path=ElementOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d23}"></TextBlock>
+                                                <TextBlock Text="{Binding Source={StaticResource Lang}, XPath=d24}"></TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Rectangle.ToolTip>
+                                </Rectangle>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d1}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox Style="{DynamicResource ModPlusDataGridComboBox}"
+                                      ItemsSource="{Binding Source={x:Static configurations:Constants.ElementOffsets}}"
+                                      SelectedItem="{Binding Path=ElementOffset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d6}"
                                         CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                </DataGridComboBoxColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d6}"
-                                        CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Walls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Walls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       HorizontalAlignment="Center"></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d11}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Openings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d11}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Openings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           Visibility="{Binding Path=IntersectingWallsAndOpeningsVisibility, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d13}" 
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d13}" 
                                         CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IntersectingWalls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IntersectingWalls, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           Visibility="{Binding Path=IntersectingWallsAndOpeningsVisibility, UpdateSourceTrigger=PropertyChanged}"
                                           ></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d16}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Grids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d16}" CanUserSort="False" CanUserResize="False" CanUserReorder="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Grids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       HorizontalAlignment="Center"></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d18}"
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d18}"
                                         CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=ExtremeGrids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=ExtremeGrids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                           ></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d21}"
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource Lang}, XPath=d21}"
                                         CanUserSort="False" CanUserResize="False" CanUserReorder="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Overall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Overall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       HorizontalAlignment="Center"></CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Name="BtDeleteSelectedChain" Padding="0" BorderThickness="0"
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="BtDeleteSelectedChain" Padding="1" MinWidth="0"
                                     ToolTip="{Binding Source={StaticResource Lang}, XPath=h19}"
-                                    Click="BtDeleteSelectedChain_OnClick" Margin="5">
-                                <Rectangle Fill="{DynamicResource BlackBrush}" Width="12" Height="18">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource Delete}"></VisualBrush>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <Button.Style>
-                                    <Style BasedOn="{StaticResource SquareMetroButton}" TargetType="{x:Type Button}">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}"
+                                    Click="BtDeleteSelectedChain_OnClick" Margin="1">
+                                    <Viewbox Width="24" Height="24">
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" 
+                                              Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}"  />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ModPlusFlatButton}">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}"
                                                              Value="True">
-                                                <Setter Property="Visibility" Value="Visible"></Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
         <!-- Buttons -->
-        <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="2"
+        <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"
                     Click="BtAddRow_OnClick" SnapsToDevicePixels="True"
                     Content="{Binding Source={StaticResource Lang}, XPath=h20}"></Button>
-        <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="2,2,10,2"
+        <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="4,4,20,4"
                     Content="{Binding Source={StaticResource Lang}, XPath=accept}" Name="BtAccept" Click="BtAccept_OnClick"></Button>
     </Grid>
 
-</mpc:BaseMetroWindow>
+</mps:ModPlusWindow>

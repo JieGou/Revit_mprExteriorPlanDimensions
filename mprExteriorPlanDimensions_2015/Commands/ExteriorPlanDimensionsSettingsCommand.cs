@@ -5,7 +5,8 @@ using mprExteriorPlanDimensions.View;
 
 namespace mprExteriorPlanDimensions.Commands
 {
-    [Transaction(TransactionMode.ReadOnly)]
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
     public class ExteriorPlanDimensionsSettingsCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

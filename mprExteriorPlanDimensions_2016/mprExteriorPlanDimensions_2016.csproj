@@ -30,12 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ModPlusAPI">
       <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ModPlusStyle">
+      <HintPath>..\..\..\..\ModPlus\Extensions\ModPlusStyle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -108,6 +108,9 @@
     </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\ExteriorDimensionChain.cs">
       <Link>Configurations\ExteriorDimensionChain.cs</Link>
+    </Compile>
+    <Compile Include="..\mprExteriorPlanDimensions_2015\Properties\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\View\ExteriorConfigurationWin.xaml.cs">
       <Link>View\ExteriorConfigurationWin.xaml.cs</Link>
