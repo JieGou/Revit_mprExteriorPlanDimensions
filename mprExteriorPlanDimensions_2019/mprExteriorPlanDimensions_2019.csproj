@@ -35,7 +35,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="ModPlusStyle">
-      <HintPath>..\..\..\..\ModPlus\Extensions\ModPlusStyle.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusStyle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
