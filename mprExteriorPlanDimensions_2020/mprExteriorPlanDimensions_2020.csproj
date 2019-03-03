@@ -4,20 +4,21 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3D6D9D8-CD9B-436D-8312-2D5946A2F0DC}</ProjectGuid>
+    <ProjectGuid>{F60463A6-988D-493E-94B2-FB104DB3930D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mprExteriorPlanDimensions</RootNamespace>
-    <AssemblyName>mprExteriorPlanDimensions_2019</AssemblyName>
+    <AssemblyName>mprExteriorPlanDimensions_2020</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;R2019</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;R2020</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
@@ -26,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;R2019</DefineConstants>
+    <DefineConstants>TRACE;R2020</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
@@ -43,87 +44,78 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
-      <HintPath>C:\_Revit dlls\2019\RevitAPI.dll</HintPath>
+      <HintPath>C:\_Revit dlls\2020\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>C:\_Revit dlls\2019\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\_Revit dlls\2020\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <!--
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
-	-->
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\AdvancedClasses\AdvancedGrid.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\advancedclasses\AdvancedGrid.cs">
       <Link>Body\AdvancedClasses\AdvancedGrid.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\AdvancedClasses\AdvancedHelpers.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\advancedclasses\AdvancedHelpers.cs">
       <Link>Body\AdvancedClasses\AdvancedHelpers.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\AdvancedClasses\AdvancedPlanarFace.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\advancedclasses\AdvancedPlanarFace.cs">
       <Link>Body\AdvancedClasses\AdvancedPlanarFace.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\AdvancedClasses\AdvancedWall.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\advancedclasses\AdvancedWall.cs">
       <Link>Body\AdvancedClasses\AdvancedWall.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\Enumerators\ElementCurveType.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\enumerators\ElementCurveType.cs">
       <Link>Body\Enumerators\ElementCurveType.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\Enumerators\ElementOrientation.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\enumerators\ElementOrientation.cs">
       <Link>Body\Enumerators\ElementOrientation.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\Enumerators\ExtremeWallVariant.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\enumerators\ExtremeWallVariant.cs">
       <Link>Body\Enumerators\ExtremeWallVariant.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\GeometryHelpers.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\GeometryHelpers.cs">
       <Link>Body\GeometryHelpers.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\SelectionFilters\WallAndGridsFilter.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\selectionfilters\WallAndGridsFilter.cs">
       <Link>Body\SelectionFilters\WallAndGridsFilter.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Body\SettingsFile.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\body\SettingsFile.cs">
       <Link>Body\SettingsFile.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Commands\ExteriorPlanDimensionsCommand.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\commands\ExteriorPlanDimensionsCommand.cs">
       <Link>Commands\ExteriorPlanDimensionsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Commands\ExteriorPlanDimensionsSettingsCommand.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\commands\ExteriorPlanDimensionsSettingsCommand.cs">
       <Link>Commands\ExteriorPlanDimensionsSettingsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\BaseConfiguration.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\BaseConfiguration.cs">
       <Link>Configurations\BaseConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\BaseNotify.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\BaseNotify.cs">
       <Link>Configurations\BaseNotify.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\Constants.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\Constants.cs">
       <Link>Configurations\Constants.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\CustomNotifyCollection.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\CustomNotifyCollection.cs">
       <Link>Configurations\CustomNotifyCollection.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\ExteriorConfiguration.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\ExteriorConfiguration.cs">
       <Link>Configurations\ExteriorConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\ExteriorDimensionChain.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\configurations\ExteriorDimensionChain.cs">
       <Link>Configurations\ExteriorDimensionChain.cs</Link>
     </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\ModPlusConnector.cs">
@@ -132,45 +124,50 @@
     <Compile Include="..\mprExteriorPlanDimensions_2015\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\View\ExteriorConfigurationWin.xaml.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\view\ExteriorConfigurationWin.xaml.cs">
       <Link>View\ExteriorConfigurationWin.xaml.cs</Link>
       <DependentUpon>ExteriorConfigurationWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\View\SettingsWindow.xaml.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\view\SettingsWindow.xaml.cs">
       <Link>View\SettingsWindow.xaml.cs</Link>
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Work\InsertExteriorDimensions.cs">
+    <Compile Include="..\mprexteriorplandimensions_2015\work\InsertExteriorDimensions.cs">
       <Link>Work\InsertExteriorDimensions.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\mprExteriorPlanDimensions_2015\Resources\mprExteriorPlanDimensionsSettings_16x16.png">
-      <Link>Resources\mprExteriorPlanDimensionsSettings_16x16.png</Link>
-    </Resource>
-    <Resource Include="..\mprExteriorPlanDimensions_2015\Resources\mprExteriorPlanDimensionsSettings_32x32.png">
-      <Link>Resources\mprExteriorPlanDimensionsSettings_32x32.png</Link>
-    </Resource>
-    <Resource Include="..\mprExteriorPlanDimensions_2015\Resources\mprExteriorPlanDimensions_16x16.png">
+    <Resource Include="..\mprexteriorplandimensions_2015\resources\mprExteriorPlanDimensions_16x16.png">
       <Link>Resources\mprExteriorPlanDimensions_16x16.png</Link>
     </Resource>
-    <Resource Include="..\mprExteriorPlanDimensions_2015\Resources\mprExteriorPlanDimensions_32x32.png">
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\mprexteriorplandimensions_2015\resources\mprExteriorPlanDimensions_32x32.png">
       <Link>Resources\mprExteriorPlanDimensions_32x32.png</Link>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\mprExteriorPlanDimensions_2015\View\ExteriorConfigurationWin.xaml">
+    <Resource Include="..\mprexteriorplandimensions_2015\resources\mprExteriorPlanDimensionsSettings_16x16.png">
+      <Link>Resources\mprExteriorPlanDimensionsSettings_16x16.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\mprexteriorplandimensions_2015\resources\mprExteriorPlanDimensionsSettings_32x32.png">
+      <Link>Resources\mprExteriorPlanDimensionsSettings_32x32.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\mprexteriorplandimensions_2015\view\ExteriorConfigurationWin.xaml">
       <Link>View\ExteriorConfigurationWin.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\mprExteriorPlanDimensions_2015\View\SettingsWindow.xaml">
+    <Page Include="..\mprexteriorplandimensions_2015\view\SettingsWindow.xaml">
       <Link>View\SettingsWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (

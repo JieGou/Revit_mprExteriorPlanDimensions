@@ -21,7 +21,7 @@ namespace mprExteriorPlanDimensions.Commands
         {
             try
             {
-                Statistic.SendCommandStarting(new Interface());
+                Statistic.SendCommandStarting(new ModPlusConnector());
 
                 Document doc = commandData.Application.ActiveUIDocument.Document;
                 // Проверяем, что находимся на нужном виде

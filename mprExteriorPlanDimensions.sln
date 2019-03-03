@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mprExteriorPlanDimensions_2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mprExteriorPlanDimensions_2019", "mprExteriorPlanDimensions_2019\mprExteriorPlanDimensions_2019.csproj", "{E3D6D9D8-CD9B-436D-8312-2D5946A2F0DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mprExteriorPlanDimensions_2020", "mprExteriorPlanDimensions_2020\mprExteriorPlanDimensions_2020.csproj", "{F60463A6-988D-493E-94B2-FB104DB3930D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E3D6D9D8-CD9B-436D-8312-2D5946A2F0DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3D6D9D8-CD9B-436D-8312-2D5946A2F0DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3D6D9D8-CD9B-436D-8312-2D5946A2F0DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60463A6-988D-493E-94B2-FB104DB3930D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60463A6-988D-493E-94B2-FB104DB3930D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60463A6-988D-493E-94B2-FB104DB3930D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60463A6-988D-493E-94B2-FB104DB3930D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
