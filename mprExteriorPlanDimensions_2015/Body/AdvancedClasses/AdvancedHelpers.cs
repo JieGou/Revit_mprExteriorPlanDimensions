@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using mprExteriorPlanDimensions.Body.Enumerators;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprExteriorPlanDimensions.Body.AdvancedClasses
+﻿namespace mprExteriorPlanDimensions.Body.AdvancedClasses
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Enumerators;
+    using ModPlusAPI;
+
     public static class AdvancedHelpers
     {
 
@@ -23,14 +21,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                     advancedWalls.RemoveAt(i);
             }
         }
-        public static void FilterByCutPlan(List<AdvancedWall> advancedWalls, double elevation)
-        {
-            for (int i = advancedWalls.Count - 1; i >= 0; i--)
-            {
-                if (elevation < advancedWalls[i].GetMinZ() || elevation > advancedWalls[i].GetMaxZ())
-                    advancedWalls.RemoveAt(i);
-            }
-        }
+       
         /// <summary>Фильтр стен по допустимой толщине, указанной в настройках</summary>
         /// <param name="advancedWalls"></param>
         public static void FilterByWallWidth(List<AdvancedWall> advancedWalls)
@@ -54,23 +45,23 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             Document doc,
             out List<AdvancedWall> leftExtreme,
             out List<AdvancedWall> rightExtreme,
-            out List<AdvancedWall> topextreme,
+            out List<AdvancedWall> topExtreme,
             out List<AdvancedWall> bottomExtreme
         )
         {
             rightExtreme = new List<AdvancedWall>();
             leftExtreme = new List<AdvancedWall>();
-            topextreme = new List<AdvancedWall>();
+            topExtreme = new List<AdvancedWall>();
             bottomExtreme = new List<AdvancedWall>();
             // Нахожу "внешние" стены
-            var outterWalls = GetOutterWalls(walls);
-            if (!outterWalls.Any()) return;
+            var outerWalls = GetOuterWalls(walls);
+            if (!outerWalls.Any()) return;
 
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(outterWalls, "outter walls");
+            //ExportGeometryToXml.ExportAdvancedWallsFaces(outerWalls, "outer walls");
             
-            for (var i = 0; i < outterWalls.Count; i++)
+            for (var i = 0; i < outerWalls.Count; i++)
             {
-                AdvancedWall checkedWall = outterWalls[i];
+                AdvancedWall checkedWall = outerWalls[i];
                 if (checkedWall.Orientation == ElementOrientation.Vertical)
                 {
 
@@ -82,12 +73,12 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         new XYZ(checkedWall.MidPoint.X + 1000000, checkedWall.MidPoint.Y, 0.0));
                     var hasPerpendicularLeftIntersect = false;
                     var hasPerpendicularRightIntersect = false;
-                    for (int j = 0; j < outterWalls.Count; j++)
+                    for (int j = 0; j < outerWalls.Count; j++)
                     {
                         if (i == j) continue;
                         var checkedCurve = Line.CreateBound(
-                            new XYZ(outterWalls[j].StartPoint.X, outterWalls[j].StartPoint.Y, 0.0),
-                            new XYZ(outterWalls[j].EndPoint.X, outterWalls[j].EndPoint.Y, 0.0));
+                            new XYZ(outerWalls[j].StartPoint.X, outerWalls[j].StartPoint.Y, 0.0),
+                            new XYZ(outerWalls[j].EndPoint.X, outerWalls[j].EndPoint.Y, 0.0));
                         if (leftPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularLeftIntersect = true;
                         if (rightPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularRightIntersect = true;
                     }
@@ -106,31 +97,31 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         new XYZ(checkedWall.MidPoint.X, checkedWall.MidPoint.Y - 1000000, 0.0));
                     var hasPerpendicularTopIntersect = false;
                     var hasPerpendicularBottomIntersect = false;
-                    for (int j = 0; j < outterWalls.Count; j++)
+                    for (int j = 0; j < outerWalls.Count; j++)
                     {
                         if (i == j) continue;
                         var checkedCurve = Line.CreateBound(
-                            new XYZ(outterWalls[j].StartPoint.X, outterWalls[j].StartPoint.Y, 0.0),
-                            new XYZ(outterWalls[j].EndPoint.X, outterWalls[j].EndPoint.Y, 0.0));
+                            new XYZ(outerWalls[j].StartPoint.X, outerWalls[j].StartPoint.Y, 0.0),
+                            new XYZ(outerWalls[j].EndPoint.X, outerWalls[j].EndPoint.Y, 0.0));
                         if (topPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularTopIntersect = true;
                         if (bottomPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularBottomIntersect = true;
                     }
                     if (hasPerpendicularBottomIntersect && !hasPerpendicularTopIntersect)
-                        topextreme.Add(checkedWall);
+                        topExtreme.Add(checkedWall);
                     if (hasPerpendicularTopIntersect && !hasPerpendicularBottomIntersect)
                         bottomExtreme.Add(checkedWall);
 
                 }
             }
-            foreach (AdvancedWall checkedAdvancedWall in outterWalls)
+            foreach (AdvancedWall checkedAdvancedWall in outerWalls)
             {
                 if (checkedAdvancedWall.Orientation == ElementOrientation.Vertical)
                 {
-                    foreach (AdvancedWall wall in topextreme)
+                    foreach (AdvancedWall wall in topExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
                         {
-                            topextreme.Add(checkedAdvancedWall);
+                            topExtreme.Add(checkedAdvancedWall);
                             break;
                         }
                     }
@@ -164,14 +155,15 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                 }
             }
         }
+       
         /// <summary>Поиск из стен только "внешних".
         /// Принцип поиска: из каждой стены (из середины) откладывается перпендикуляр. Если с одной стороны
         /// есть пересечения, а с другой нет, значит стена "внешняя"</summary>
         /// <param name="walls">Изначальный набор стен</param>
         /// <returns></returns>
-        public static List<AdvancedWall> GetOutterWalls(IReadOnlyList<AdvancedWall> walls)
+        public static List<AdvancedWall> GetOuterWalls(IReadOnlyList<AdvancedWall> walls)
         {
-            var outterWalls = new List<AdvancedWall>();
+            var outerWalls = new List<AdvancedWall>();
 
             for (int i = 0; i < walls.Count; i++)
             {
@@ -197,7 +189,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         if (rightLine.IntersectTo(checkedCurve)) hasRightIntersect = true;
                     }
                     if (hasLeftIntersect ^ hasRightIntersect)
-                        outterWalls.Add(checkedWall);
+                        outerWalls.Add(checkedWall);
                 }
                 if (checkedWall.Orientation == ElementOrientation.Horizontal)
                 {
@@ -219,10 +211,10 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         if (bottomLine.IntersectTo(checkedCurve)) hasBottomIntersect = true;
                     }
                     if (hasTopIntersect ^ hasBottomIntersect)
-                        outterWalls.Add(checkedWall);
+                        outerWalls.Add(checkedWall);
                 }
             }
-            var ids = outterWalls.Select(wall => wall.Wall.Id.IntegerValue).ToList();
+            var ids = outerWalls.Select(wall => wall.Wall.Id.IntegerValue).ToList();
             // Этот вариант возьмет не все стены, поэтому делаю дополнительный цикл
             // Теперь ищу стены через LocationCurve.get_ElementsAtJoin
             var tempWalls = new List<AdvancedWall>();
@@ -232,15 +224,15 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                 {
                     var onFirstEnd = false;
                     var onSecondEnd = false;
-                    foreach (AdvancedWall outterWall in outterWalls)
+                    foreach (AdvancedWall outerWall in outerWalls)
                     {
-                        if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outterWall, 0) &&
-                            outterWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
+                        if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outerWall, 0) &&
+                            outerWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
                         {
                             onFirstEnd = true;
                         }
-                        if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outterWall, 1) &&
-                            outterWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
+                        if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outerWall, 1) &&
+                            outerWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
                         {
                             onSecondEnd = true;
                         }
@@ -249,47 +241,10 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         tempWalls.Add(checkedAdvancedWall);
                 }
             }
-            outterWalls.AddRange(tempWalls);
-            return outterWalls;
+            outerWalls.AddRange(tempWalls);
+            return outerWalls;
         }
 
-
-        /// <summary>Получение "крайних" стен</summary>
-        /// <param name="advancedWalls"></param>
-        /// <param name="extremeWallVariant"></param>
-        /// <returns></returns>
-        private static AdvancedWall FindExtremeWall(IEnumerable<AdvancedWall> advancedWalls, ExtremeWallVariant extremeWallVariant)
-        {
-            switch (extremeWallVariant)
-            {
-                case ExtremeWallVariant.Left:
-                    return advancedWalls
-                        .Where(x => x.Orientation == ElementOrientation.CloseToVertical || x.Orientation == ElementOrientation.Vertical)
-                        .OrderBy(x => Math.Min(x.StartPoint.X, x.EndPoint.X)).FirstOrDefault();
-                case ExtremeWallVariant.Right:
-                    return advancedWalls
-                        .Where(x => x.Orientation == ElementOrientation.CloseToVertical || x.Orientation == ElementOrientation.Vertical)
-                        .OrderBy(x => Math.Max(x.StartPoint.X, x.EndPoint.X)).LastOrDefault();
-                case ExtremeWallVariant.Top:
-                    return advancedWalls
-                        .Where(x => x.Orientation == ElementOrientation.CloseToHorizontal || x.Orientation == ElementOrientation.Horizontal)
-                        .OrderBy(x => Math.Max(x.StartPoint.Y, x.EndPoint.Y)).LastOrDefault();
-                case ExtremeWallVariant.Bottom:
-                    return advancedWalls
-                        .Where(x => x.Orientation == ElementOrientation.CloseToHorizontal || x.Orientation == ElementOrientation.Horizontal)
-                        .OrderBy(x => Math.Min(x.StartPoint.Y, x.EndPoint.Y)).FirstOrDefault();
-            }
-            return null;
-        }
-        /// <summary>Удаление стены из списка по ID</summary>
-        private static void RemoveAdvancedWallFromListById(List<AdvancedWall> walls, AdvancedWall advancedWall)
-        {
-            for (var i = walls.Count - 1; i >= 0; i--)
-            {
-                if (walls[i].Wall.Id.IntegerValue.Equals(advancedWall.Wall.Id.IntegerValue))
-                    walls.RemoveAt(i);
-            }
-        }
         /// <summary>Проверка наличия стены в списке по ID</summary>
         public static bool HasWallInListById(IEnumerable<AdvancedWall> walls, AdvancedWall advancedWall)
         {
@@ -302,76 +257,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             }
             return false;
         }
-        public static bool HasWallInListById(IEnumerable<AdvancedWall> walls, int id)
-        {
-            foreach (var wall in walls)
-            {
-                if (wall.Wall.Id.IntegerValue.Equals(id))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        /// <summary>Получение всех стен в виде списка Id, пересекаемых с каждой стеной
-        /// в переданном списке, используя LocationCurve.get_ElementsAtJoin</summary>
-        private static List<int> GetIdsOfJoinedWallsByLocationCurve(IEnumerable<AdvancedWall> walls, List<int> exceptIds)
-        {
-            var joinIds = new List<int>();
-            foreach (AdvancedWall wall in walls)
-            {
-                if (exceptIds.Contains(wall.Wall.Id.IntegerValue)) continue;
-                ElementArray elementsAtJoinAtStart = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(0);
-                ElementArray elementsAtJoinAtEnd = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(1);
-                if (!elementsAtJoinAtEnd.IsEmpty)
-                {
-                    foreach (Element e in elementsAtJoinAtEnd)
-                        if (e is Wall)
-                            joinIds.Add(e.Id.IntegerValue);
-                }
-                if (!elementsAtJoinAtStart.IsEmpty)
-                {
-                    foreach (Element e in elementsAtJoinAtStart)
-                        if (e is Wall)
-                            joinIds.Add(e.Id.IntegerValue);
-                }
-            }
-            return joinIds;
-        }
-        /// <summary>Проверка того, что Id стен, которые соприкасаются с проверяемой стеной,
-        /// находятся в списке переданных Id</summary>
-        /// <param name="wall"></param>
-        /// <param name="ids"></param>
-        /// <returns></returns>
-        private static bool HasIdsOfJoinedWallsByLocationCurve(this AdvancedWall wall, List<int> ids)
-        {
-            var joinIds = new List<int>();
-
-            ElementArray elementsAtJoinAtStart = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(0);
-            ElementArray elementsAtJoinAtEnd = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(1);
-            if (!elementsAtJoinAtEnd.IsEmpty)
-            {
-                foreach (Element e in elementsAtJoinAtEnd)
-                    if (e is Wall && !wall.Wall.Id.IntegerValue.Equals(e.Id.IntegerValue))
-                        joinIds.Add(e.Id.IntegerValue);
-            }
-            if (!elementsAtJoinAtStart.IsEmpty)
-            {
-                foreach (Element e in elementsAtJoinAtStart)
-                    if (e is Wall && !wall.Wall.Id.IntegerValue.Equals(e.Id.IntegerValue))
-                        joinIds.Add(e.Id.IntegerValue);
-            }
-            var needThisWall = true;
-            foreach (int joinId in joinIds)
-            {
-                if (!ids.Contains(joinId))
-                {
-                    needThisWall = false;
-                    break;
-                }
-            }
-            return needThisWall;
-        }
+        
         /// <summary>Проверка что текущая стена имеет на конце соединение с проверяемой стеной</summary>
         /// <param name="wall"></param>
         /// <param name="checkedWall"></param>
@@ -395,6 +281,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             }
             return joinIds.Contains(checkedWall.Wall.Id.IntegerValue);
         }
+        
         private static bool IsAdjoinToByLocationCurveEnds(this AdvancedWall wall, AdvancedWall checkedWall, int end)
         {
             var joinIds = new List<int>();
@@ -406,23 +293,6 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                         joinIds.Add(e.Id.IntegerValue);
             }
             return joinIds.Contains(checkedWall.Wall.Id.IntegerValue);
-        }
-
-        private static List<int> GetIdsOfJoinedWallsByJoinGeometryUtils(IEnumerable<AdvancedWall> walls, List<int> exceptIds, Document doc)
-        {
-            var joinIds = new List<int>();
-            foreach (AdvancedWall wall in walls)
-            {
-                if (exceptIds.Contains(wall.Wall.Id.IntegerValue)) continue;
-                var joined = JoinGeometryUtils.GetJoinedElements(doc, wall.Wall);
-                if (joined.Any())
-                    foreach (ElementId elementId in joined)
-                    {
-                        var element = doc.GetElement(elementId) as Wall;
-                        if (element != null) joinIds.Add(elementId.IntegerValue);
-                    }
-            }
-            return joinIds;
         }
 
         /// <summary>Получение линии размера для цепочки в зависимости от внешнего направления</summary>
@@ -441,6 +311,10 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
                 points.Add(wall.EndPoint);
                 points.Add(wall.StartPoint);
             }
+
+            if (!points.Any())
+                return null;
+
             switch (extremeWallVariant)
             {
                 case ExtremeWallVariant.Right:
@@ -493,10 +367,12 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             }
             return null;
         }
+        
         public static Line TryCreateBound(XYZ pt1, XYZ pt2)
         {
             return pt1.IsAlmostEqualTo(pt2) ? null : Line.CreateBound(pt1, pt2);
         }
+       
         /// <summary>Выбор стены из списка по Id</summary>
         /// <param name="walls"></param>
         /// <param name="id"></param>
@@ -511,15 +387,6 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             return null;
         }
 
-        private static bool HasWallInListWichLiesInLineWithWallBySide(IEnumerable<AdvancedWall> sideWalls,
-            AdvancedWall extremeWall, ExtremeWallVariant extremeWallVariant)
-        {
-            foreach (AdvancedWall wall in sideWalls)
-            {
-                if (wall.LiesInLineWithWallBySide(extremeWall, extremeWallVariant)) return true;
-            }
-            return false;
-        }
         /// <summary>Наибольшая толщина стены в списке</summary>
         /// <param name="walls"></param>
         /// <returns></returns>

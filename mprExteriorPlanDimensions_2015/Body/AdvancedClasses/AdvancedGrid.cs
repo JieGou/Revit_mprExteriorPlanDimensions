@@ -1,22 +1,29 @@
-﻿using Autodesk.Revit.DB;
-using mprExteriorPlanDimensions.Body.Enumerators;
-
-namespace mprExteriorPlanDimensions.Body.AdvancedClasses
+﻿namespace mprExteriorPlanDimensions.Body.AdvancedClasses
 {
+    using Autodesk.Revit.DB;
+    using Enumerators;
+
     public class AdvancedGrid
     {
         #region Public Fields
+        
         public readonly Grid Grid;
+        
         /// <summary>False - не удалось определить значения для элемента</summary>
-        public bool IsDefinded = true;
+        public bool IsDefined = true;
+        
         /// <summary>Ориентация элемента</summary>
         public ElementOrientation Orientation;
+        
         /// <summary>Тип кривой, лежащий в основе</summary>
         public ElementCurveType CurveType;
+        
         // Start Point
         public XYZ StartPoint;
+        
         // End Point
         public XYZ EndPoint;
+        
         #endregion
 
         #region Constructors
@@ -37,7 +44,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             var curve = Grid.Curve;
             if (curve == null)
             {
-                IsDefinded = false;
+                IsDefined = false;
                 return;
             }
             // get curve type
@@ -45,7 +52,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             else if (curve is Arc) CurveType = ElementCurveType.Arc;
             else
             {
-                IsDefinded = false;
+                IsDefined = false;
                 return;
             }
             // points
@@ -56,7 +63,7 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             if (Orientation == ElementOrientation.CloseToHorizontal ||
                 Orientation == ElementOrientation.CloseToVertical ||
                 Orientation == ElementOrientation.Undefined)
-                IsDefinded = false;
+                IsDefined = false;
         }
 
         #endregion

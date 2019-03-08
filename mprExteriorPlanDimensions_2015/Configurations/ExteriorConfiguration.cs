@@ -11,6 +11,7 @@ namespace mprExteriorPlanDimensions.Configurations
     public class ExteriorConfiguration : BaseConfiguration
     {
         private const string LangItem = "mprExteriorPlanDimensions";
+        
         #region Constructor
 
         public ExteriorConfiguration()

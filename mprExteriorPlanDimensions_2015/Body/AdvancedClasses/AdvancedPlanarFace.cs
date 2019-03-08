@@ -1,33 +1,42 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-
-namespace mprExteriorPlanDimensions.Body.AdvancedClasses
+﻿namespace mprExteriorPlanDimensions.Body.AdvancedClasses
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public class AdvancedPlanarFace
     {
         #region Public Fields
 
         public PlanarFace PlanarFace;
+        
         /// <summary>False - не удалось определить значения для элемента</summary>
-        public bool IsDefinded = true;
+        public bool IsDefined = true;
+        
         /// <summary>Parent wall id</summary>
         public int WallId;
 
         public double MinX;
+        
         public double MaxX;
+        
         public double MinY;
+        
         public double MaxY;
+        
         public double MinZ;
+        
         public double MaxZ;
+        
         /// <summary>PlanarFace's edges</summary>
         public List<Edge> Edges;
 
         public bool IsHorizontal;
-        public bool IsVertical;
         
+        public bool IsVertical;
 
         #endregion
+    
         #region Conctructor
 
         public AdvancedPlanarFace(int wallId, PlanarFace planarFace)
@@ -52,16 +61,17 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             Edges = GetEdges();
             if (!Edges.Any())
             {
-                IsDefinded = false;
+                IsDefined = false;
                 return;
             }
             IsHorizontal = PlanarFace.IsHorizontal();
             IsVertical = PlanarFace.IsVertical();
             if (!IsVertical && !IsHorizontal)
             {
-                IsDefinded = false;
+                IsDefined = false;
             }
         }
+        
         /// <summary>Get edges from PlanarFace</summary>
         /// <returns>List of edges</returns>
         private List<Edge> GetEdges()
@@ -77,11 +87,6 @@ namespace mprExteriorPlanDimensions.Body.AdvancedClasses
             }
             return edges;
         }
-
-        #endregion
-
-        #region Public Methods
-
 
         #endregion
     }

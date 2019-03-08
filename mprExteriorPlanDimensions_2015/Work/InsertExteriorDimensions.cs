@@ -1,41 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprExteriorPlanDimensions.Body;
-using mprExteriorPlanDimensions.Body.AdvancedClasses;
-using mprExteriorPlanDimensions.Body.Enumerators;
-using mprExteriorPlanDimensions.Body.SelectionFilters;
-using mprExteriorPlanDimensions.Configurations;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprExteriorPlanDimensions.Work
+﻿namespace mprExteriorPlanDimensions.Work
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Body;
+    using Body.AdvancedClasses;
+    using Body.Enumerators;
+    using Body.SelectionFilters;
+    using Configurations;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+
     public class InsertExteriorDimensions
     {
         private const string LangItem = "mprExteriorPlanDimensions";
+        private string _transactionName;
         private readonly ExteriorConfiguration _exteriorConfiguration;
         private readonly UIApplication _uiApplication;
         private readonly List<AdvancedWall> _advancedWalls;
         private readonly List<AdvancedGrid> _advancedGrids;
         private double _cutPlanZ;
+
         public InsertExteriorDimensions(ExteriorConfiguration configuration, UIApplication uiApplication)
         {
             _exteriorConfiguration = configuration;
             _uiApplication = uiApplication;
             _advancedGrids = new List<AdvancedGrid>();
             _advancedWalls = new List<AdvancedWall>();
+            _transactionName = Language.GetFunctionLocalName(LangItem, "Наружные размеры");
         }
+
         /// <summary>Проставить внешние размеры</summary>
         public void DoWork()
         {
             Document doc = _uiApplication.ActiveUIDocument.Document;
             _cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
+            
             // select
             var selectedElements = SelectElements();
             if (selectedElements == null) return;
+            
             // get list of advanced elements
             foreach (Element element in selectedElements)
             {
@@ -43,11 +49,11 @@ namespace mprExteriorPlanDimensions.Work
                 {
                     case Wall wall:
                         var advancedWall = new AdvancedWall(wall);
-                        if (advancedWall.IsDefinded) _advancedWalls.Add(advancedWall);
+                        if (advancedWall.IsDefined) _advancedWalls.Add(advancedWall);
                         break;
                     case Grid grid:
                         var advancedGrid = new AdvancedGrid(grid);
-                        if (advancedGrid.IsDefinded) _advancedGrids.Add(advancedGrid);
+                        if (advancedGrid.IsDefined) _advancedGrids.Add(advancedGrid);
                         break;
                 }
             }
@@ -56,6 +62,7 @@ namespace mprExteriorPlanDimensions.Work
                 MessageBox.Show(Language.GetItem(LangItem, "msg7"), MessageBoxIcon.Close);
                 return;
             }
+            
             // Фильтрую стены по толщине
             AdvancedHelpers.FilterByWallWidth(_advancedWalls);
             if (!_advancedWalls.Any())
@@ -65,28 +72,16 @@ namespace mprExteriorPlanDimensions.Work
             }
             // Фильтрую стены, оставляя которые пересекаются секущим диапазоном
             AdvancedHelpers.FilterByCutPlan(_advancedWalls, _uiApplication.ActiveUIDocument.Document);
+            
             // Вдруг после этого не осталось стен!
             if (!_advancedWalls.Any())
             {
                 MessageBox.Show(Language.GetItem(LangItem, "msg9"), MessageBoxIcon.Close);
                 return;
             }
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(_advancedWalls, "selected walls");
-            //ExportGeometryToXml.ExportAdvancedWallsEdges(_advancedWalls, "selected by edges");
-            // Поиск крайних групп стен
-            // ReSharper disable RedundantAssignment
-            //var rightExtreme = new List<AdvancedWall>();
-            //var leftExtreme = new List<AdvancedWall>();
-            //var topextreme = new List<AdvancedWall>();
-            //var bottomExtreme = new List<AdvancedWall>();
-            // ReSharper restore RedundantAssignment
 
             AdvancedHelpers.FindExtremes(_advancedWalls, doc, out var leftExtreme, out var rightExtreme, out var topextreme, out var bottomExtreme);
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(rightExtreme, "right extreme");
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(leftExtreme, "left extreme");
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(topextreme, "top extreme");
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(bottomExtreme, "bottom extreme");
-
+            
             // create dimensions
             List<Dimension> createdDimensions = new List<Dimension>();
             if (_exteriorConfiguration.RightDimensions)
@@ -127,6 +122,7 @@ namespace mprExteriorPlanDimensions.Work
 
             // Сумма длин отступов от крайней стены
             int chainOffsetSumm = 0;
+
             // Делаю цикл по цепочкам
             foreach (ExteriorDimensionChain chain in _exteriorConfiguration.Chains)
             {
@@ -160,7 +156,7 @@ namespace mprExteriorPlanDimensions.Work
                         GetGridsReferences(extremeWallVariant, ref referenceArray);
 
                     if (!referenceArray.IsEmpty)
-                        using (var transaction = new Transaction(doc, "mprExteriorPlanDimensions"))
+                        using (var transaction = new Transaction(doc, _transactionName))
                         {
                             transaction.Start();
                             var dimension = doc.Create.NewDimension(doc.ActiveView, chainDimensionLine, referenceArray);
@@ -222,7 +218,7 @@ namespace mprExteriorPlanDimensions.Work
                 }
             }
             if (!referenceArray.IsEmpty)
-                using (var transaction = new Transaction(doc, "mprExteriorPlanDimensions"))
+                using (var transaction = new Transaction(doc, _transactionName))
                 {
                     transaction.Start();
                     returnedDimension = doc.Create.NewDimension(doc.ActiveView, chainDimensionLine, referenceArray);
@@ -317,7 +313,6 @@ namespace mprExteriorPlanDimensions.Work
                         faces.Add(verticalTempFaces.Last());
                     }
                 }
-                //ExportGeometryToXml.ExportAdvancedFaces(faces, "wall faces");
             }
             else // Иначе достаточно найти все нужные референсы стен, лежащих в перпендикулярном направлении
             {
@@ -417,9 +412,11 @@ namespace mprExteriorPlanDimensions.Work
             Dimension returnedDimension = null;
             List<AdvancedWall> verticalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
             List<AdvancedWall> horizontalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
+            
             // Если вдруг нет стен
             if (!verticalWalls.Any() && !horizontalWalls.Any()) return null;
             ReferenceArray referenceArray = new ReferenceArray();
+            
             // То же самое, что и получить из стен, только взять крайние референсы
             if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
             {
@@ -461,6 +458,7 @@ namespace mprExteriorPlanDimensions.Work
             if (extremeWallVariant == ExtremeWallVariant.Top || extremeWallVariant == ExtremeWallVariant.Bottom)
             {
                 var faces = new List<AdvancedPlanarFace>();
+
                 // для каждой вертикальной стены нахожу соприкасающиеся горизонтальные стены
                 foreach (AdvancedWall horizontalWall in horizontalWalls)
                 {
@@ -496,7 +494,7 @@ namespace mprExteriorPlanDimensions.Work
                 referenceArray.Append(faces.Last().PlanarFace.Reference);
             }
             if (!referenceArray.IsEmpty)
-                using (var transaction = new Transaction(doc, "mprExteriorPlanDimensions"))
+                using (var transaction = new Transaction(doc, _transactionName))
                 {
                     transaction.Start();
                     returnedDimension = doc.Create.NewDimension(doc.ActiveView, chainDimensionLine, referenceArray);
@@ -510,8 +508,8 @@ namespace mprExteriorPlanDimensions.Work
         private List<AdvancedPlanarFace> FilterFaces(ExtremeWallVariant extremeWallVariant,
             List<AdvancedWall> sideWalls, List<AdvancedPlanarFace> selectedFaces)
         {
-            //ExportGeometryToXml.ExportAdvancedFaces(selectedFaces, extremeWallVariant + "_ before filter");
             var tolerance = 0.0001;
+
             // Нужно два списка так как разные фильтрации
             List<AdvancedPlanarFace> faces = new List<AdvancedPlanarFace>();
 
@@ -521,7 +519,6 @@ namespace mprExteriorPlanDimensions.Work
                 if (face.MinZ <= _cutPlanZ && face.MaxZ >= _cutPlanZ)
                     faces.Add(face);
             }
-            //ExportGeometryToXml.ExportAdvancedFaces(faces, extremeWallVariant + "_ after remove by cut");
 
             // Нужно удалить фейсы, которые совпадают по направлению
             List<AdvancedPlanarFace> returnedFaces = new List<AdvancedPlanarFace>();
@@ -561,9 +558,7 @@ namespace mprExteriorPlanDimensions.Work
                 }
 
             } while (hasFaces);
-
-            //ExportGeometryToXml.ExportAdvancedFaces(returnedFaces, extremeWallVariant + "_ after remove colins");
-
+            
             // Удаление по глубине проецирования
             // Глубину проецирования беру по наибольшей толщине стен в списке
             var depth = AdvancedHelpers.GetMaxWallWidthFromList(sideWalls) * 2;
@@ -635,9 +630,7 @@ namespace mprExteriorPlanDimensions.Work
                     }
                 }
             }
-
-            //ExportGeometryToXml.ExportAdvancedFaces(returnedFaces, extremeWallVariant + "_ after remove by depth");
-
+            
             // Фильтрация ближайших граней: если расстояние между гранями меньше заданного в настройка,
             // то удалять из этой пары ту грань, которая указана в настройках (по длине грани)
             var minWidthSetting = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
