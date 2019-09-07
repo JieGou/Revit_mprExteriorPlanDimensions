@@ -23,7 +23,8 @@ namespace mprExteriorPlanDimensions.Commands
             {
                 Statistic.SendCommandStarting(new ModPlusConnector());
 
-                Document doc = commandData.Application.ActiveUIDocument.Document;
+                var doc = commandData.Application.ActiveUIDocument.Document;
+                
                 // Проверяем, что находимся на нужном виде
                 var view = doc.ActiveView;
                 var isViewPlan = view is ViewPlan;
@@ -32,7 +33,7 @@ namespace mprExteriorPlanDimensions.Commands
                     var configuration = GetExteriorConfiguration();
                     if (configuration != null)
                     {
-                        InsertExteriorDimensions insertExteriorDimensions =
+                        var insertExteriorDimensions =
                             new InsertExteriorDimensions(configuration, commandData.Application);
                         insertExteriorDimensions.DoWork();
                     }
@@ -40,7 +41,7 @@ namespace mprExteriorPlanDimensions.Commands
                     {
                         if (MessageBox.ShowYesNo(Language.GetItem(LangItem, "msg5"), MessageBoxIcon.Question))
                         {
-                            SettingsWindow settings = new SettingsWindow();
+                            var settings = new SettingsWindow();
                             settings.ShowDialog();
                         }
                     }
@@ -68,14 +69,14 @@ namespace mprExteriorPlanDimensions.Commands
             {
                 var defConfig = Guid.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
                     "mprExteriorPlanDimensions",
-                    "DefaultExteriorConfiguration"), out Guid g)
+                    "DefaultExteriorConfiguration"), out var g)
                     ? g
                     : Guid.Empty;
                 if (defConfig == Guid.Empty) return null;
 
                 var exteriorConfigurations = SettingsFile.LoadExteriorConfigurations();
                 
-                foreach (ExteriorConfiguration configuration in exteriorConfigurations)
+                foreach (var configuration in exteriorConfigurations)
                 {
                     if (configuration.Id.Equals(defConfig))
                     {

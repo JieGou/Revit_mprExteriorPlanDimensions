@@ -5,6 +5,7 @@
     {
         /// <summary>На основе прямой линии</summary>
         Line,
+        
         /// <summary>На основе дуги</summary>
         Arc
     }

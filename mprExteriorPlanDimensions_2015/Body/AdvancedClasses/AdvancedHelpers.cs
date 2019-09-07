@@ -18,7 +18,9 @@
             for (int i = advancedWalls.Count - 1; i >= 0; i--)
             {
                 if (checkedZ < advancedWalls[i].GetMinZ() || checkedZ > advancedWalls[i].GetMaxZ())
+                {
                     advancedWalls.RemoveAt(i);
+                }
             }
         }
        
@@ -26,17 +28,23 @@
         /// <param name="advancedWalls"></param>
         public static void FilterByWallWidth(List<AdvancedWall> advancedWalls)
         {
-            var minWallWidth = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions", "MinWallWidth"), out var m)
+            var minWallWidth = int.TryParse(
+                UserConfigFile.GetValue(
+                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "MinWallWidth"), out var m)
                 ? m
                 : 50;
             for (var i = advancedWalls.Count - 1; i >= 0; i--)
             {
                 // Пропускаю витражи, т.к. их толщина мала, но работать с ними нужно
-                if (advancedWalls[i].Wall.CurtainGrid != null) continue;
+                if (advancedWalls[i].Wall.CurtainGrid != null)
+                {
+                    continue;
+                }
 
                 if (advancedWalls[i].Wall.Width * 304.8 < minWallWidth)
+                {
                     advancedWalls.RemoveAt(i);
+                }
             }
         }
         
@@ -55,10 +63,13 @@
             bottomExtreme = new List<AdvancedWall>();
             // Нахожу "внешние" стены
             var outerWalls = GetOuterWalls(walls);
-            if (!outerWalls.Any()) return;
+            if (!outerWalls.Any())
+            {
+                return;
+            }
 
             //ExportGeometryToXml.ExportAdvancedWallsFaces(outerWalls, "outer walls");
-            
+
             for (var i = 0; i < outerWalls.Count; i++)
             {
                 AdvancedWall checkedWall = outerWalls[i];
@@ -75,18 +86,36 @@
                     var hasPerpendicularRightIntersect = false;
                     for (int j = 0; j < outerWalls.Count; j++)
                     {
-                        if (i == j) continue;
+                        if (i == j)
+                        {
+                            continue;
+                        }
+
                         var checkedCurve = Line.CreateBound(
                             new XYZ(outerWalls[j].StartPoint.X, outerWalls[j].StartPoint.Y, 0.0),
                             new XYZ(outerWalls[j].EndPoint.X, outerWalls[j].EndPoint.Y, 0.0));
-                        if (leftPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularLeftIntersect = true;
-                        if (rightPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularRightIntersect = true;
+                        if (leftPerpendicularLine.IntersectTo(checkedCurve))
+                        {
+                            hasPerpendicularLeftIntersect = true;
+                        }
+
+                        if (rightPerpendicularLine.IntersectTo(checkedCurve))
+                        {
+                            hasPerpendicularRightIntersect = true;
+                        }
                     }
+
                     if (hasPerpendicularRightIntersect && !hasPerpendicularLeftIntersect)
+                    {
                         leftExtreme.Add(checkedWall);
+                    }
+
                     if (hasPerpendicularLeftIntersect && !hasPerpendicularRightIntersect)
+                    {
                         rightExtreme.Add(checkedWall);
+                    }
                 }
+
                 if (checkedWall.Orientation == ElementOrientation.Horizontal)
                 {
                     var topPerpendicularLine = Line.CreateBound(
@@ -99,20 +128,37 @@
                     var hasPerpendicularBottomIntersect = false;
                     for (int j = 0; j < outerWalls.Count; j++)
                     {
-                        if (i == j) continue;
+                        if (i == j)
+                        {
+                            continue;
+                        }
+
                         var checkedCurve = Line.CreateBound(
                             new XYZ(outerWalls[j].StartPoint.X, outerWalls[j].StartPoint.Y, 0.0),
                             new XYZ(outerWalls[j].EndPoint.X, outerWalls[j].EndPoint.Y, 0.0));
-                        if (topPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularTopIntersect = true;
-                        if (bottomPerpendicularLine.IntersectTo(checkedCurve)) hasPerpendicularBottomIntersect = true;
-                    }
-                    if (hasPerpendicularBottomIntersect && !hasPerpendicularTopIntersect)
-                        topExtreme.Add(checkedWall);
-                    if (hasPerpendicularTopIntersect && !hasPerpendicularBottomIntersect)
-                        bottomExtreme.Add(checkedWall);
+                        if (topPerpendicularLine.IntersectTo(checkedCurve))
+                        {
+                            hasPerpendicularTopIntersect = true;
+                        }
 
+                        if (bottomPerpendicularLine.IntersectTo(checkedCurve))
+                        {
+                            hasPerpendicularBottomIntersect = true;
+                        }
+                    }
+
+                    if (hasPerpendicularBottomIntersect && !hasPerpendicularTopIntersect)
+                    {
+                        topExtreme.Add(checkedWall);
+                    }
+
+                    if (hasPerpendicularTopIntersect && !hasPerpendicularBottomIntersect)
+                    {
+                        bottomExtreme.Add(checkedWall);
+                    }
                 }
             }
+
             foreach (AdvancedWall checkedAdvancedWall in outerWalls)
             {
                 if (checkedAdvancedWall.Orientation == ElementOrientation.Vertical)
@@ -125,6 +171,7 @@
                             break;
                         }
                     }
+
                     foreach (AdvancedWall wall in bottomExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
@@ -144,6 +191,7 @@
                             break;
                         }
                     }
+
                     foreach (AdvancedWall wall in rightExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
@@ -180,17 +228,36 @@
                     var hasRightIntersect = false;
                     for (int j = 0; j < walls.Count; j++)
                     {
-                        if (i == j) continue;
-                        if (walls[j] == null) continue;
+                        if (i == j)
+                        {
+                            continue;
+                        }
+
+                        if (walls[j] == null)
+                        {
+                            continue;
+                        }
+
                         var checkedCurve = Line.CreateBound(
                             new XYZ(walls[j].StartPoint.X, walls[j].StartPoint.Y, 0.0),
                             new XYZ(walls[j].EndPoint.X, walls[j].EndPoint.Y, 0.0));
-                        if (leftLine.IntersectTo(checkedCurve)) hasLeftIntersect = true;
-                        if (rightLine.IntersectTo(checkedCurve)) hasRightIntersect = true;
+                        if (leftLine.IntersectTo(checkedCurve))
+                        {
+                            hasLeftIntersect = true;
+                        }
+
+                        if (rightLine.IntersectTo(checkedCurve))
+                        {
+                            hasRightIntersect = true;
+                        }
                     }
+
                     if (hasLeftIntersect ^ hasRightIntersect)
+                    {
                         outerWalls.Add(checkedWall);
+                    }
                 }
+
                 if (checkedWall.Orientation == ElementOrientation.Horizontal)
                 {
                     var topLine = Line.CreateBound(
@@ -203,17 +270,32 @@
                     var hasBottomIntersect = false;
                     for (int j = 0; j < walls.Count; j++)
                     {
-                        if (i == j) continue;
+                        if (i == j)
+                        {
+                            continue;
+                        }
+
                         var checkedCurve = Line.CreateBound(
                             new XYZ(walls[j].StartPoint.X, walls[j].StartPoint.Y, 0.0),
                             new XYZ(walls[j].EndPoint.X, walls[j].EndPoint.Y, 0.0));
-                        if (topLine.IntersectTo(checkedCurve)) hasTopIntersect = true;
-                        if (bottomLine.IntersectTo(checkedCurve)) hasBottomIntersect = true;
+                        if (topLine.IntersectTo(checkedCurve))
+                        {
+                            hasTopIntersect = true;
+                        }
+
+                        if (bottomLine.IntersectTo(checkedCurve))
+                        {
+                            hasBottomIntersect = true;
+                        }
                     }
+
                     if (hasTopIntersect ^ hasBottomIntersect)
+                    {
                         outerWalls.Add(checkedWall);
+                    }
                 }
             }
+
             var ids = outerWalls.Select(wall => wall.Wall.Id.IntegerValue).ToList();
             // Этот вариант возьмет не все стены, поэтому делаю дополнительный цикл
             // Теперь ищу стены через LocationCurve.get_ElementsAtJoin
@@ -231,16 +313,21 @@
                         {
                             onFirstEnd = true;
                         }
+
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outerWall, 1) &&
                             outerWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
                         {
                             onSecondEnd = true;
                         }
                     }
+
                     if (onFirstEnd && onSecondEnd)
+                    {
                         tempWalls.Add(checkedAdvancedWall);
+                    }
                 }
             }
+
             outerWalls.AddRange(tempWalls);
             return outerWalls;
         }
@@ -255,13 +342,13 @@
                     return true;
                 }
             }
+
             return false;
         }
         
         /// <summary>Проверка что текущая стена имеет на конце соединение с проверяемой стеной</summary>
-        /// <param name="wall"></param>
-        /// <param name="checkedWall"></param>
-        /// <returns></returns>
+        /// <param name="wall">Current wall</param>
+        /// <param name="checkedWall">Checked wall</param>
         public static bool IsAdjoinToByLocationCurveEnds(this AdvancedWall wall, AdvancedWall checkedWall)
         {
             var joinIds = new List<int>();
@@ -270,15 +357,25 @@
             if (!elementsAtJoinAtEnd.IsEmpty)
             {
                 foreach (Element e in elementsAtJoinAtEnd)
+                {
                     if (e is Wall && !wall.Wall.Id.IntegerValue.Equals(e.Id.IntegerValue))
+                    {
                         joinIds.Add(e.Id.IntegerValue);
+                    }
+                }
             }
+
             if (!elementsAtJoinAtStart.IsEmpty)
             {
                 foreach (Element e in elementsAtJoinAtStart)
+                {
                     if (e is Wall && !wall.Wall.Id.IntegerValue.Equals(e.Id.IntegerValue))
+                    {
                         joinIds.Add(e.Id.IntegerValue);
+                    }
+                }
             }
+
             return joinIds.Contains(checkedWall.Wall.Id.IntegerValue);
         }
         
@@ -289,9 +386,14 @@
             if (!elementsAtJoin.IsEmpty)
             {
                 foreach (Element e in elementsAtJoin)
+                {
                     if (e is Wall && !wall.Wall.Id.IntegerValue.Equals(e.Id.IntegerValue))
+                    {
                         joinIds.Add(e.Id.IntegerValue);
+                    }
+                }
             }
+
             return joinIds.Contains(checkedWall.Wall.Id.IntegerValue);
         }
 
@@ -313,7 +415,9 @@
             }
 
             if (!points.Any())
+            {
                 return null;
+            }
 
             switch (extremeWallVariant)
             {
@@ -329,6 +433,7 @@
                             new XYZ(maxX + offset, maxY, cutPlanZ)
                         );
                     }
+
                 case ExtremeWallVariant.Left:
                     {
                         points.Sort((x, y) => x.X.CompareTo(y.X));
@@ -340,6 +445,7 @@
                             new XYZ(minX - offset, minY, cutPlanZ),
                             new XYZ(minX - offset, maxY, cutPlanZ));
                     }
+
                 case ExtremeWallVariant.Top:
                     {
                         points.Sort((x, y) => x.X.CompareTo(y.X));
@@ -352,6 +458,7 @@
                             new XYZ(maxX, maxY + offset, cutPlanZ)
                         );
                     }
+
                 case ExtremeWallVariant.Bottom:
                     {
                         points.Sort((x, y) => x.X.CompareTo(y.X));
@@ -365,6 +472,7 @@
                         );
                     }
             }
+
             return null;
         }
         
@@ -382,8 +490,11 @@
             foreach (AdvancedWall advancedWall in walls)
             {
                 if (advancedWall.Wall.Id.IntegerValue.Equals(id))
+                {
                     return advancedWall;
+                }
             }
+
             return null;
         }
 

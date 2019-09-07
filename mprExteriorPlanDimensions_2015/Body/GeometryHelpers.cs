@@ -20,7 +20,8 @@
             var startPoint = curve.GetEndPoint(0);
             var endPoint = curve.GetEndPoint(1);
             // Если точки совпадают
-            if (startPoint.IsAlmostEqualTo(endPoint)) return ElementOrientation.Undefined;
+            if (startPoint.IsAlmostEqualTo(endPoint))
+                return ElementOrientation.Undefined;
             // Если X равны и Y не равны
             if (Math.Abs(startPoint.X - endPoint.X) < tolerance &&
                 Math.Abs(startPoint.Y - endPoint.Y) > tolerance)
@@ -45,14 +46,16 @@
         {
             var tolerance = 0.0001;
 
-            if (Math.Abs(face.GetMinY() - face.GetMaxY()) < tolerance) return true;
+            if (Math.Abs(face.GetMinY() - face.GetMaxY()) < tolerance)
+                return true;
             return false;
         }
 
         public static bool IsVertical(this PlanarFace face)
         {
-            var tolerance = 0.0001;
-            if (Math.Abs(face.GetMinX() - face.GetMaxX()) < tolerance) return true;
+            const double tolerance = 0.0001;
+            if (Math.Abs(face.GetMinX() - face.GetMaxX()) < tolerance)
+                return true;
             return false;
         }
         
@@ -73,6 +76,7 @@
             points.Sort((p1, p2) => p1.X.CompareTo(p2.X));
             return points.First().X;
         }
+
         public static double GetMaxX(this PlanarFace face)
         {
             var points = new List<XYZ>();
@@ -88,6 +92,7 @@
             points.Sort((p1, p2) => p1.X.CompareTo(p2.X));
             return points.Last().X;
         }
+
         public static double GetMinY(this PlanarFace face)
         {
             var points = new List<XYZ>();
@@ -103,6 +108,7 @@
             points.Sort((p1, p2) => p1.Y.CompareTo(p2.Y));
             return points.First().Y;
         }
+
         public static double GetMaxY(this PlanarFace face)
         {
             var points = new List<XYZ>();
@@ -118,6 +124,7 @@
             points.Sort((p1, p2) => p1.Y.CompareTo(p2.Y));
             return points.Last().Y;
         }
+
         public static double GetMinZ(this PlanarFace face)
         {
             var points = new List<XYZ>();
@@ -133,6 +140,7 @@
             points.Sort((p1, p2) => p1.Z.CompareTo(p2.Z));
             return points.First().Z;
         }
+
         public static double GetMaxZ(this PlanarFace face)
         {
             var points = new List<XYZ>();
@@ -265,6 +273,7 @@
                 }
             }
         }
+
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum SpecialReferenceType
         {
@@ -281,7 +290,8 @@
         
         public static bool IntersectTo(this Line line, Line checkedLine)
         {
-            if (line.Intersect(checkedLine) == SetComparisonResult.Overlap) return true;
+            if (line.Intersect(checkedLine) == SetComparisonResult.Overlap)
+                return true;
             return false;
         }
     }

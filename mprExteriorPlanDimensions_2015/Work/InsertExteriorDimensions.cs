@@ -35,34 +35,38 @@
         /// <summary>Проставить внешние размеры</summary>
         public void DoWork()
         {
-            Document doc = _uiApplication.ActiveUIDocument.Document;
+            var doc = _uiApplication.ActiveUIDocument.Document;
             _cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
-            
+
             // select
             var selectedElements = SelectElements();
-            if (selectedElements == null) return;
-            
+            if (selectedElements == null)
+                return;
+
             // get list of advanced elements
-            foreach (Element element in selectedElements)
+            foreach (var element in selectedElements)
             {
                 switch (element)
                 {
                     case Wall wall:
                         var advancedWall = new AdvancedWall(wall);
-                        if (advancedWall.IsDefined) _advancedWalls.Add(advancedWall);
+                        if (advancedWall.IsDefined)
+                            _advancedWalls.Add(advancedWall);
                         break;
                     case Grid grid:
                         var advancedGrid = new AdvancedGrid(grid);
-                        if (advancedGrid.IsDefined) _advancedGrids.Add(advancedGrid);
+                        if (advancedGrid.IsDefined)
+                            _advancedGrids.Add(advancedGrid);
                         break;
                 }
             }
+
             if (!_advancedWalls.Any())
             {
                 MessageBox.Show(Language.GetItem(LangItem, "msg7"), MessageBoxIcon.Close);
                 return;
             }
-            
+
             // Фильтрую стены по толщине
             AdvancedHelpers.FilterByWallWidth(_advancedWalls);
             if (!_advancedWalls.Any())
@@ -70,9 +74,10 @@
                 MessageBox.Show(Language.GetItem(LangItem, "msg8"), MessageBoxIcon.Close);
                 return;
             }
+
             // Фильтрую стены, оставляя которые пересекаются секущим диапазоном
             AdvancedHelpers.FilterByCutPlan(_advancedWalls, _uiApplication.ActiveUIDocument.Document);
-            
+
             // Вдруг после этого не осталось стен!
             if (!_advancedWalls.Any())
             {
@@ -81,21 +86,27 @@
             }
 
             AdvancedHelpers.FindExtremes(_advancedWalls, doc, out var leftExtreme, out var rightExtreme, out var topextreme, out var bottomExtreme);
-            
-            // create dimensions
-            List<Dimension> createdDimensions = new List<Dimension>();
-            if (_exteriorConfiguration.RightDimensions)
-                createdDimensions.AddRange(CreateSideDimensions(rightExtreme, _advancedWalls, ExtremeWallVariant.Right));
-            if (_exteriorConfiguration.LeftDimensions)
-                createdDimensions.AddRange(CreateSideDimensions(leftExtreme, _advancedWalls, ExtremeWallVariant.Left));
-            if (_exteriorConfiguration.TopDimensions)
-                createdDimensions.AddRange(CreateSideDimensions(topextreme, _advancedWalls, ExtremeWallVariant.Top));
-            if (_exteriorConfiguration.BottomDimensions)
-                createdDimensions.AddRange(CreateSideDimensions(bottomExtreme, _advancedWalls, ExtremeWallVariant.Bottom));
+
+            using (TransactionGroup transactionGroup = new TransactionGroup(doc, _transactionName))
+            {
+                transactionGroup.Start();
+
+                // create dimensions
+                var createdDimensions = new List<Dimension>();
+                if (_exteriorConfiguration.RightDimensions)
+                    createdDimensions.AddRange(CreateSideDimensions(rightExtreme, _advancedWalls, ExtremeWallVariant.Right));
+                if (_exteriorConfiguration.LeftDimensions)
+                    createdDimensions.AddRange(CreateSideDimensions(leftExtreme, _advancedWalls, ExtremeWallVariant.Left));
+                if (_exteriorConfiguration.TopDimensions)
+                    createdDimensions.AddRange(CreateSideDimensions(topextreme, _advancedWalls, ExtremeWallVariant.Top));
+                if (_exteriorConfiguration.BottomDimensions)
+                    createdDimensions.AddRange(CreateSideDimensions(bottomExtreme, _advancedWalls, ExtremeWallVariant.Bottom));
+
+                transactionGroup.Assimilate();
+            }
         }
 
         /// <summary>Выбор пользователем элементов (стены и оси)</summary>
-        /// <returns></returns>
         private IList<Element> SelectElements()
         {
             try
@@ -106,7 +117,8 @@
                     var result = selection.PickElementsByRectangle(new WallAndGridsFilter(), Language.GetItem(LangItem, "msg10"));
                     if (result.Count <= 1)
                         MessageBox.Show(Language.GetItem(LangItem, "msg11"), MessageBoxIcon.Alert);
-                    else return result;
+                    else
+                        return result;
                 }
             }
             catch
@@ -121,15 +133,16 @@
             var doc = _uiApplication.ActiveUIDocument.Document;
 
             // Сумма длин отступов от крайней стены
-            int chainOffsetSumm = 0;
+            var chainOffsetSumm = 0;
 
             // Делаю цикл по цепочкам
-            foreach (ExteriorDimensionChain chain in _exteriorConfiguration.Chains)
+            foreach (var chain in _exteriorConfiguration.Chains)
             {
                 // Суммирую отступы
                 chainOffsetSumm += chain.ElementOffset;
+
                 // Получаю линию для построения размера с учетом масштаба
-                Line chainDimensionLine = AdvancedHelpers.GetDimensionLineForChain(
+                var chainDimensionLine = AdvancedHelpers.GetDimensionLineForChain(
                     doc, sideAdvancedWalls, extremeWallVariant,
                     chainOffsetSumm * 0.00328084 * doc.ActiveView.Scale);
 
@@ -139,23 +152,31 @@
                     continue;
                 }
 
-
                 // Крайние оси
                 if (chain.ExtremeGrids)
-                    createdDimensions.Add(CreateDimensionByExtremeGrids(doc, chainDimensionLine, extremeWallVariant));
-                else if (chain.Overall)
-                    createdDimensions.Add(CreateDimensionByOverallWalls(doc, chainDimensionLine, sideAdvancedWalls, extremeWallVariant));
-                else // Так как вариант "крайние оси" или "габарит" перекрывает все остальные
                 {
-                    ReferenceArray referenceArray = new ReferenceArray();
+                    createdDimensions.Add(CreateDimensionByExtremeGrids(doc, chainDimensionLine, extremeWallVariant));
+                }
+                else if (chain.Overall)
+                {
+                    createdDimensions.Add(CreateDimensionByOverallWalls(doc, chainDimensionLine, sideAdvancedWalls, extremeWallVariant));
+                }
+
+                // Так как вариант "крайние оси" или "габарит" перекрывает все остальные
+                else
+                {
+                    var referenceArray = new ReferenceArray();
+
                     // Собираю референсы для стен в зависимости от настроек цепочки
                     if (chain.Walls)
                         GetWallsReferences(sideAdvancedWalls, allWalls, extremeWallVariant, chain, ref referenceArray);
+
                     // from grids
                     if (chain.Grids)
                         GetGridsReferences(extremeWallVariant, ref referenceArray);
 
                     if (!referenceArray.IsEmpty)
+                    {
                         using (var transaction = new Transaction(doc, _transactionName))
                         {
                             transaction.Start();
@@ -164,37 +185,42 @@
                                 createdDimensions.Add(dimension);
                             transaction.Commit();
                         }
+                    }
                 }
             }
+
             return createdDimensions;
         }
 
         /// <summary>Создание размеров для крайних осей</summary>
-        /// <param name="doc"></param>
-        /// <param name="chainDimensionLine"></param>
-        /// <param name="extremeWallVariant"></param>
+        /// <param name="doc">Document</param>
+        /// <param name="chainDimensionLine">Chain dimension line</param>
+        /// <param name="extremeWallVariant">Extreme wall variant</param>
         private Dimension CreateDimensionByExtremeGrids(Document doc, Line chainDimensionLine, ExtremeWallVariant extremeWallVariant)
         {
-            if (!_advancedGrids.Any()) return null;
+            if (!_advancedGrids.Any())
+                return null;
             Dimension returnedDimension = null;
-            ReferenceArray referenceArray = new ReferenceArray();
-            Options opt = new Options
+            var referenceArray = new ReferenceArray();
+            var opt = new Options
             {
                 ComputeReferences = true,
                 IncludeNonVisibleObjects = true,
                 View = _uiApplication.ActiveUIDocument.Document.ActiveView
             };
+
             // Нужно получить референсы крайних осей в зависимости от направления
             if (extremeWallVariant == ExtremeWallVariant.Left || extremeWallVariant == ExtremeWallVariant.Right)
             {
                 // Беру горизонтальные оси
-                List<AdvancedGrid> verticalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Horizontal).ToList();
+                var verticalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Horizontal).ToList();
+                
                 // Сортирую по Y
                 verticalGrids.Sort((g1, g2) => g1.StartPoint.Y.CompareTo(g2.StartPoint.Y));
                 var grids = new List<AdvancedGrid> { verticalGrids.First(), verticalGrids.Last() };
-                foreach (AdvancedGrid grid in grids)
+                foreach (var grid in grids)
                 {
-                    foreach (GeometryObject o in grid.Grid.get_Geometry(opt))
+                    foreach (var o in grid.Grid.get_Geometry(opt))
                     {
                         var line = o as Line;
                         if (line != null)
@@ -204,12 +230,12 @@
             }
             else // Иначе верх/низ
             {
-                List<AdvancedGrid> horizontalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Vertical).ToList();
+                var horizontalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Vertical).ToList();
                 horizontalGrids.Sort((g1, g2) => g1.StartPoint.X.CompareTo(g2.StartPoint.X));
                 var grids = new List<AdvancedGrid> { horizontalGrids.First(), horizontalGrids.Last() };
-                foreach (AdvancedGrid grid in grids)
+                foreach (var grid in grids)
                 {
-                    foreach (GeometryObject o in grid.Grid.get_Geometry(opt))
+                    foreach (var o in grid.Grid.get_Geometry(opt))
                     {
                         var line = o as Line;
                         if (line != null)
@@ -217,48 +243,57 @@
                     }
                 }
             }
+
             if (!referenceArray.IsEmpty)
+            {
                 using (var transaction = new Transaction(doc, _transactionName))
                 {
                     transaction.Start();
                     returnedDimension = doc.Create.NewDimension(doc.ActiveView, chainDimensionLine, referenceArray);
                     transaction.Commit();
                 }
+            }
+
             return returnedDimension;
         }
 
         private void GetGridsReferences(ExtremeWallVariant extremeWallVariant, ref ReferenceArray referenceArray)
         {
-            List<AdvancedGrid> verticalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Vertical).ToList();
-            List<AdvancedGrid> horizontalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Horizontal).ToList();
-            Options opt = new Options
+            var verticalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Vertical).ToList();
+            var horizontalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Horizontal).ToList();
+            var opt = new Options
             {
                 ComputeReferences = true,
                 IncludeNonVisibleObjects = true,
                 View = _uiApplication.ActiveUIDocument.Document.ActiveView
             };
+
             // Так как оси не нужно проверять на совпадение, то сразу добавляю их в массив
             if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
+            {
                 foreach (var grid in horizontalGrids)
                 {
-                    foreach (GeometryObject o in grid.Grid.get_Geometry(opt))
+                    foreach (var o in grid.Grid.get_Geometry(opt))
                     {
                         var line = o as Line;
                         if (line != null)
                             referenceArray.Append(line.Reference);
                     }
                 }
+            }
 
             if (extremeWallVariant == ExtremeWallVariant.Bottom || extremeWallVariant == ExtremeWallVariant.Top)
+            {
                 foreach (var grid in verticalGrids)
                 {
-                    foreach (GeometryObject o in grid.Grid.get_Geometry(opt))
+                    foreach (var o in grid.Grid.get_Geometry(opt))
                     {
                         var line = o as Line;
                         if (line != null)
                             referenceArray.Append(line.Reference);
                     }
                 }
+            }
         }
 
         /// <summary>Получение референсов в группе стен по условиям</summary>
@@ -273,11 +308,14 @@
             ExtremeWallVariant extremeWallVariant,
             ExteriorDimensionChain chain, ref ReferenceArray referenceArray)
         {
-            List<AdvancedPlanarFace> faces = new List<AdvancedPlanarFace>();
-            List<AdvancedWall> verticalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
-            List<AdvancedWall> horizontalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
+            var faces = new List<AdvancedPlanarFace>();
+            var verticalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
+            var horizontalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
+
             // Если вдруг нет стен
-            if (!verticalWalls.Any() && !horizontalWalls.Any()) return;
+            if (!verticalWalls.Any() && !horizontalWalls.Any())
+                return;
+
             // Варианты "проемы" и "пересекающиеся стены" могут быть только в случае включения в цепочку стен!
 
             // Если не стоит вариант "пересекающиеся стены", то нужно искать нужные референсы
@@ -287,67 +325,78 @@
                 {
                     foreach (var wall in sideWalls)
                     {
-                        List<AdvancedPlanarFace> horizontalTempFaces = new List<AdvancedPlanarFace>();
+                        var horizontalTempFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
                             if (face.IsHorizontal)
                                 horizontalTempFaces.Add(face);
                         }
+
                         horizontalTempFaces.Sort((f1, f2) => f1.PlanarFace.Origin.Y.CompareTo(f2.PlanarFace.Origin.Y));
                         faces.Add(horizontalTempFaces.First());
                         faces.Add(horizontalTempFaces.Last());
                     }
                 }
+
                 if (extremeWallVariant == ExtremeWallVariant.Top || extremeWallVariant == ExtremeWallVariant.Bottom)
                 {
                     foreach (var wall in sideWalls)
                     {
-                        List<AdvancedPlanarFace> verticalTempFaces = new List<AdvancedPlanarFace>();
+                        var verticalTempFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
                             if (face.IsVertical)
                                 verticalTempFaces.Add(face);
                         }
+
                         verticalTempFaces.Sort((f1, f2) => f1.PlanarFace.Origin.X.CompareTo(f2.PlanarFace.Origin.X));
                         faces.Add(verticalTempFaces.First());
                         faces.Add(verticalTempFaces.Last());
                     }
                 }
             }
-            else // Иначе достаточно найти все нужные референсы стен, лежащих в перпендикулярном направлении
+
+            // Иначе достаточно найти все нужные референсы стен, лежащих в перпендикулярном направлении
+            else
             {
                 if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
                 {
-                    foreach (AdvancedWall wall in horizontalWalls)
+                    foreach (var wall in horizontalWalls)
                     {
                         var wallNeededFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
-                            if (face.IsHorizontal) wallNeededFaces.Add(face);
+                            if (face.IsHorizontal)
+                                wallNeededFaces.Add(face);
                         }
+
                         // Теперь сортирую по Y и беру первый и последний
                         wallNeededFaces.Sort((f1, f2) => f1.PlanarFace.Origin.Y.CompareTo(f2.PlanarFace.Origin.Y));
                         faces.Add(wallNeededFaces.First());
                         faces.Add(wallNeededFaces.Last());
                     }
+
                     var iw = FindIntersectionWalls(sideWalls, allWalls)
                         .Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
-                    foreach (AdvancedWall wall in iw)
+                    foreach (var wall in iw)
                     {
                         var wallNeededFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
-                            if (face.IsHorizontal) wallNeededFaces.Add(face);
+                            if (face.IsHorizontal)
+                                wallNeededFaces.Add(face);
                         }
+
                         // Теперь сортирую по Y и беру первый и последний
                         wallNeededFaces.Sort((f1, f2) => f1.PlanarFace.Origin.Y.CompareTo(f2.PlanarFace.Origin.Y));
                         faces.Add(wallNeededFaces.First());
                         faces.Add(wallNeededFaces.Last());
                     }
                 }
+
                 if (extremeWallVariant == ExtremeWallVariant.Bottom || extremeWallVariant == ExtremeWallVariant.Top)
                 {
-                    foreach (AdvancedWall wall in verticalWalls)
+                    foreach (var wall in verticalWalls)
                     {
                         var wallNeededFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
@@ -355,20 +404,25 @@
                             if (face.IsVertical)
                                 wallNeededFaces.Add(face);
                         }
+
                         // Теперь сортирую по X и беру первый и последний
                         wallNeededFaces.Sort((f1, f2) => f1.PlanarFace.Origin.X.CompareTo(f2.PlanarFace.Origin.X));
                         faces.Add(wallNeededFaces.First());
                         faces.Add(wallNeededFaces.Last());
                     }
+
                     var iw = FindIntersectionWalls(sideWalls, allWalls)
                         .Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
-                    foreach (AdvancedWall wall in iw)
+
+                    foreach (var wall in iw)
                     {
                         var wallNeededFaces = new List<AdvancedPlanarFace>();
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
-                            if (face.IsVertical) wallNeededFaces.Add(face);
+                            if (face.IsVertical)
+                                wallNeededFaces.Add(face);
                         }
+
                         // Теперь сортирую по Y и беру первый и последний
                         wallNeededFaces.Sort((f1, f2) => f1.PlanarFace.Origin.Y.CompareTo(f2.PlanarFace.Origin.Y));
                         faces.Add(wallNeededFaces.First());
@@ -376,26 +430,39 @@
                     }
                 }
             }
+
             // если проемы
             if (chain.Openings)
             {
                 if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
+                {
                     foreach (var wall in verticalWalls)
+                    {
                         foreach (var face in wall.AdvancedPlanarFaces)
+                        {
                             if (face.IsHorizontal)
                             {
                                 faces.Add(face);
-                                //referenceArray.Append(face.Reference);
                             }
+                        }
+                    }
+                }
+
                 if (extremeWallVariant == ExtremeWallVariant.Bottom || extremeWallVariant == ExtremeWallVariant.Top)
+                {
                     foreach (var wall in horizontalWalls)
+                    {
                         foreach (var face in wall.AdvancedPlanarFaces)
+                        {
                             if (face.IsVertical)
                             {
-                                //referenceArray.Append(face.Reference);
                                 faces.Add(face);
                             }
+                        }
+                    }
+                }
             }
+
             // filtered
             var filteredFaces = FilterFaces(extremeWallVariant, sideWalls, faces);
             foreach (var face in filteredFaces)
@@ -406,112 +473,135 @@
 
         private Dimension CreateDimensionByOverallWalls(
             Document doc, Line chainDimensionLine,
-            List<AdvancedWall> sideWalls,
+            IReadOnlyCollection<AdvancedWall> sideWalls,
             ExtremeWallVariant extremeWallVariant)
         {
             Dimension returnedDimension = null;
-            List<AdvancedWall> verticalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
-            List<AdvancedWall> horizontalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
-            
+            var verticalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical).ToList();
+            var horizontalWalls = sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal).ToList();
+
             // Если вдруг нет стен
-            if (!verticalWalls.Any() && !horizontalWalls.Any()) return null;
-            ReferenceArray referenceArray = new ReferenceArray();
-            
+            if (!verticalWalls.Any() && !horizontalWalls.Any())
+                return null;
+            var referenceArray = new ReferenceArray();
+
             // То же самое, что и получить из стен, только взять крайние референсы
             if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
             {
                 var faces = new List<AdvancedPlanarFace>();
                 // для каждой вертикальной стены нахожу соприкасающиеся горизонтальные стены
-                foreach (AdvancedWall verticalWall in verticalWalls)
+                foreach (var verticalWall in verticalWalls)
                 {
                     // Добавляю в список все фейсы самой стены
                     foreach (var face in verticalWall.AdvancedPlanarFaces)
                     {
-                        if (face.IsHorizontal) faces.Add(face);
+                        if (face.IsHorizontal)
+                            faces.Add(face);
                     }
-                    ElementArray adjoinElements1 = ((LocationCurve)verticalWall.Wall.Location).get_ElementsAtJoin(0);
-                    ElementArray adjoinElements2 = ((LocationCurve)verticalWall.Wall.Location).get_ElementsAtJoin(1);
+
+                    var adjoinElements1 = ((LocationCurve)verticalWall.Wall.Location).get_ElementsAtJoin(0);
+                    var adjoinElements2 = ((LocationCurve)verticalWall.Wall.Location).get_ElementsAtJoin(1);
                     var adjoinWalls = new List<AdvancedWall>();
                     foreach (Element element in adjoinElements1)
                     {
                         var w = AdvancedHelpers.GetAdvancedWallFromListById(horizontalWalls, element.Id.IntegerValue);
-                        if (w != null) adjoinWalls.Add(w);
+                        if (w != null)
+                            adjoinWalls.Add(w);
                     }
+
                     foreach (Element element in adjoinElements2)
                     {
                         var w = AdvancedHelpers.GetAdvancedWallFromListById(horizontalWalls, element.Id.IntegerValue);
-                        if (w != null) adjoinWalls.Add(w);
+                        if (w != null)
+                            adjoinWalls.Add(w);
                     }
+
                     // добавляю все фейсы соприкасающихся стен
                     foreach (var wall in adjoinWalls)
                     {
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
-                            if (face.IsHorizontal) faces.Add(face);
+                            if (face.IsHorizontal)
+                                faces.Add(face);
                         }
                     }
                 }
+
                 faces.Sort((f1, f2) => f1.MinY.CompareTo(f2.MinY));
                 referenceArray.Append(faces.First().PlanarFace.Reference);
                 referenceArray.Append(faces.Last().PlanarFace.Reference);
             }
+
             if (extremeWallVariant == ExtremeWallVariant.Top || extremeWallVariant == ExtremeWallVariant.Bottom)
             {
                 var faces = new List<AdvancedPlanarFace>();
 
                 // для каждой вертикальной стены нахожу соприкасающиеся горизонтальные стены
-                foreach (AdvancedWall horizontalWall in horizontalWalls)
+                foreach (var horizontalWall in horizontalWalls)
                 {
                     // Добавляю в список все фейсы самой стены
                     foreach (var face in horizontalWall.AdvancedPlanarFaces)
                     {
-                        if (face.IsVertical) faces.Add(face);
+                        if (face.IsVertical)
+                            faces.Add(face);
                     }
-                    ElementArray adjoinElements1 = ((LocationCurve)horizontalWall.Wall.Location).get_ElementsAtJoin(0);
-                    ElementArray adjoinElements2 = ((LocationCurve)horizontalWall.Wall.Location).get_ElementsAtJoin(1);
+
+                    var adjoinElements1 = ((LocationCurve)horizontalWall.Wall.Location).get_ElementsAtJoin(0);
+                    var adjoinElements2 = ((LocationCurve)horizontalWall.Wall.Location).get_ElementsAtJoin(1);
                     var adjoinWalls = new List<AdvancedWall>();
                     foreach (Element element in adjoinElements1)
                     {
                         var w = AdvancedHelpers.GetAdvancedWallFromListById(verticalWalls, element.Id.IntegerValue);
-                        if (w != null) adjoinWalls.Add(w);
+                        if (w != null)
+                            adjoinWalls.Add(w);
                     }
+
                     foreach (Element element in adjoinElements2)
                     {
                         var w = AdvancedHelpers.GetAdvancedWallFromListById(verticalWalls, element.Id.IntegerValue);
-                        if (w != null) adjoinWalls.Add(w);
+                        if (w != null)
+                            adjoinWalls.Add(w);
                     }
+
                     // добавляю все фейсы соприкасающихся стен
                     foreach (var wall in adjoinWalls)
                     {
                         foreach (var face in wall.AdvancedPlanarFaces)
                         {
-                            if (face.IsVertical) faces.Add(face);
+                            if (face.IsVertical)
+                                faces.Add(face);
                         }
                     }
                 }
+
                 faces.Sort((f1, f2) => f1.MinX.CompareTo(f2.MinX));
                 referenceArray.Append(faces.First().PlanarFace.Reference);
                 referenceArray.Append(faces.Last().PlanarFace.Reference);
             }
+
             if (!referenceArray.IsEmpty)
+            {
                 using (var transaction = new Transaction(doc, _transactionName))
                 {
                     transaction.Start();
                     returnedDimension = doc.Create.NewDimension(doc.ActiveView, chainDimensionLine, referenceArray);
                     transaction.Commit();
                 }
+            }
+
             return returnedDimension;
         }
 
         /// <summary>Фильтрация face'ов по условиям</summary>
-        /// <returns></returns>
-        private List<AdvancedPlanarFace> FilterFaces(ExtremeWallVariant extremeWallVariant,
-            List<AdvancedWall> sideWalls, List<AdvancedPlanarFace> selectedFaces)
+        private IEnumerable<AdvancedPlanarFace> FilterFaces(
+            ExtremeWallVariant extremeWallVariant,
+            List<AdvancedWall> sideWalls,
+            IEnumerable<AdvancedPlanarFace> selectedFaces)
         {
             var tolerance = 0.0001;
 
             // Нужно два списка так как разные фильтрации
-            List<AdvancedPlanarFace> faces = new List<AdvancedPlanarFace>();
+            var faces = new List<AdvancedPlanarFace>();
 
             // Удаляю фейсы, не пересекаемые секущей плоскостью
             foreach (var face in selectedFaces)
@@ -521,13 +611,13 @@
             }
 
             // Нужно удалить фейсы, которые совпадают по направлению
-            List<AdvancedPlanarFace> returnedFaces = new List<AdvancedPlanarFace>();
+            var returnedFaces = new List<AdvancedPlanarFace>();
 
             bool hasFaces;
             do
             {
                 hasFaces = faces.Any(f => f != null);
-                for (int i = 0; i < faces.Count; i++)
+                for (var i = 0; i < faces.Count; i++)
                 {
                     var face = faces[i];
                     if (face != null)
@@ -535,8 +625,10 @@
                         returnedFaces.Add(face);
                         for (var j = 0; j < faces.Count; j++)
                         {
-                            if (i == j) continue;
-                            if (faces[j] == null) continue;
+                            if (i == j)
+                                continue;
+                            if (faces[j] == null)
+                                continue;
 
                             if (extremeWallVariant == ExtremeWallVariant.Left ||
                                 extremeWallVariant == ExtremeWallVariant.Right)
@@ -553,22 +645,22 @@
                                     faces[j] = null;
                             }
                         }
+
                         faces[i] = null;
                     }
                 }
+            }
+            while (hasFaces);
 
-            } while (hasFaces);
-            
             // Удаление по глубине проецирования
             // Глубину проецирования беру по наибольшей толщине стен в списке
             var depth = AdvancedHelpers.GetMaxWallWidthFromList(sideWalls) * 2;
 
             if (extremeWallVariant == ExtremeWallVariant.Bottom)
             {
-
-                foreach (AdvancedWall wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal))
+                foreach (var wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal))
                 {
-                    for (int i = returnedFaces.Count - 1; i >= 0; i--)
+                    for (var i = returnedFaces.Count - 1; i >= 0; i--)
                     {
                         var face = returnedFaces[i];
                         if (face.MinX > wall.GetMinX() - wall.Wall.Width &&
@@ -580,12 +672,12 @@
                     }
                 }
             }
+
             if (extremeWallVariant == ExtremeWallVariant.Top)
             {
-
-                foreach (AdvancedWall wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal))
+                foreach (var wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Horizontal))
                 {
-                    for (int i = returnedFaces.Count - 1; i >= 0; i--)
+                    for (var i = returnedFaces.Count - 1; i >= 0; i--)
                     {
                         var face = returnedFaces[i];
                         if (face.MinX > wall.GetMinX() - wall.Wall.Width &&
@@ -597,12 +689,12 @@
                     }
                 }
             }
+
             if (extremeWallVariant == ExtremeWallVariant.Left)
             {
-
-                foreach (AdvancedWall wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical))
+                foreach (var wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical))
                 {
-                    for (int i = returnedFaces.Count - 1; i >= 0; i--)
+                    for (var i = returnedFaces.Count - 1; i >= 0; i--)
                     {
                         var face = returnedFaces[i];
                         if (face.MinY > wall.GetMinY() - wall.Wall.Width &&
@@ -614,11 +706,12 @@
                     }
                 }
             }
+
             if (extremeWallVariant == ExtremeWallVariant.Right)
             {
-                foreach (AdvancedWall wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical))
+                foreach (var wall in sideWalls.Where(w => w.Orientation == ElementOrientation.Vertical))
                 {
-                    for (int i = returnedFaces.Count - 1; i >= 0; i--)
+                    for (var i = returnedFaces.Count - 1; i >= 0; i--)
                     {
                         var face = returnedFaces[i];
                         if (face.MinY > wall.GetMinY() - wall.Wall.Width &&
@@ -630,19 +723,20 @@
                     }
                 }
             }
-            
+
             // Фильтрация ближайших граней: если расстояние между гранями меньше заданного в настройка,
             // то удалять из этой пары ту грань, которая указана в настройках (по длине грани)
-            var minWidthSetting = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions",
-                "ExteriorFaceMinWidthBetween"), out int m)
+            var minWidthSetting = int.TryParse(
+                UserConfigFile.GetValue(
+                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorFaceMinWidthBetween"), out var m)
                 ? m
                 : 100;
             var minWidthBetween = minWidthSetting * 0.00328084;
-            // Вариант удаления: 0 - наменьший, 1 - наибольший
-            var removeVariant = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions",
-                "ExteriorMinWidthFaceRemove"), out m)
+
+            // Вариант удаления: 0 - наименьший, 1 - наибольший
+            var removeVariant = int.TryParse(
+                UserConfigFile.GetValue(
+                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorMinWidthFaceRemove"), out m)
                 ? m
                 : 0;
             if (extremeWallVariant == ExtremeWallVariant.Bottom || extremeWallVariant == ExtremeWallVariant.Top)
@@ -660,25 +754,32 @@
                         if (distance < minWidthBetween)
                         {
                             wasRemoved = true;
-                            var face1Lenght = Math.Abs(face1.MaxY - face1.MinY);
-                            var face2Lenght = Math.Abs(face2.MaxY - face2.MinY);
+                            var face1Length = Math.Abs(face1.MaxY - face1.MinY);
+                            var face2Length = Math.Abs(face2.MaxY - face2.MinY);
                             if (removeVariant == 0)
                             {
-                                if (face1Lenght < face2Lenght) returnedFaces.RemoveAt(i);
-                                else returnedFaces.RemoveAt(i + 1);
+                                if (face1Length < face2Length)
+                                    returnedFaces.RemoveAt(i);
+                                else
+                                    returnedFaces.RemoveAt(i + 1);
                             }
                             else
                             {
-                                if (face1Lenght > face2Lenght) returnedFaces.RemoveAt(i);
-                                else returnedFaces.RemoveAt(i + 1);
+                                if (face1Length > face2Length)
+                                    returnedFaces.RemoveAt(i);
+                                else
+                                    returnedFaces.RemoveAt(i + 1);
                             }
+
                             break;
                         }
+
                         wasRemoved = false;
                     }
-
-                } while (wasRemoved);
+                }
+                while (wasRemoved);
             }
+
             if (extremeWallVariant == ExtremeWallVariant.Left || extremeWallVariant == ExtremeWallVariant.Right)
             {
                 // Сначала нужно отсортировать
@@ -698,32 +799,38 @@
                             var face2Lenght = Math.Abs(face2.MaxX - face2.MinX);
                             if (removeVariant == 0)
                             {
-                                if (face1Lenght < face2Lenght) returnedFaces.RemoveAt(i);
-                                else returnedFaces.RemoveAt(i + 1);
+                                if (face1Lenght < face2Lenght)
+                                    returnedFaces.RemoveAt(i);
+                                else
+                                    returnedFaces.RemoveAt(i + 1);
                             }
                             else
                             {
-                                if (face1Lenght > face2Lenght) returnedFaces.RemoveAt(i);
-                                else returnedFaces.RemoveAt(i + 1);
+                                if (face1Lenght > face2Lenght)
+                                    returnedFaces.RemoveAt(i);
+                                else
+                                    returnedFaces.RemoveAt(i + 1);
                             }
+
                             break;
                         }
+
                         wasRemoved = false;
                     }
-
-                } while (wasRemoved);
+                }
+                while (wasRemoved);
             }
 
             return returnedFaces;
         }
 
-        private List<AdvancedWall> FindIntersectionWalls(List<AdvancedWall> sideWalls, List<AdvancedWall> allWalls)
+        private IEnumerable<AdvancedWall> FindIntersectionWalls(List<AdvancedWall> sideWalls, List<AdvancedWall> allWalls)
         {
             var intersectionWalls = new List<AdvancedWall>();
 
-            foreach (AdvancedWall wall in allWalls)
+            foreach (var wall in allWalls)
             {
-                foreach (AdvancedWall sideWall in sideWalls)
+                foreach (var sideWall in sideWalls)
                 {
                     if (wall.IsAdjoinToByLocationCurveEnds(sideWall) &&
                         !AdvancedHelpers.HasWallInListById(sideWalls, wall))

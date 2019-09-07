@@ -5,10 +5,13 @@
     {
         /// <summary>Левая</summary>
         Left,
+        
         /// <summary>Правая</summary>
         Right,
+        
         /// <summary>Верхняя</summary>
         Top,
+        
         /// <summary>Нижняя</summary>
         Bottom
     }

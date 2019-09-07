@@ -3,41 +3,45 @@
     using Autodesk.Revit.DB;
     using Enumerators;
 
+    /// <summary>
+    /// Advanced Grid
+    /// </summary>
     public class AdvancedGrid
     {
-        #region Public Fields
-        
-        public readonly Grid Grid;
-        
-        /// <summary>False - не удалось определить значения для элемента</summary>
-        public bool IsDefined = true;
-        
-        /// <summary>Ориентация элемента</summary>
-        public ElementOrientation Orientation;
-        
-        /// <summary>Тип кривой, лежащий в основе</summary>
-        public ElementCurveType CurveType;
-        
-        // Start Point
-        public XYZ StartPoint;
-        
-        // End Point
-        public XYZ EndPoint;
-        
-        #endregion
-
-        #region Constructors
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="grid">Revit grid</param>
         public AdvancedGrid(Grid grid)
         {
             Grid = grid;
             DefineAdvancedGridFields();
         }
 
-        #endregion
+        /// <summary>
+        /// Revit Grid
+        /// </summary>
+        public Grid Grid { get; }
 
-        #region Private Methods
+        /// <summary>False - не удалось определить значения для элемента</summary>
+        public bool IsDefined { get; set; } = true;
 
+        /// <summary>Ориентация элемента</summary>
+        public ElementOrientation Orientation { get; set; }
+
+        /// <summary>Тип кривой, лежащий в основе</summary>
+        public ElementCurveType CurveType { get; set; }
+
+        /// <summary>
+        /// Start Point
+        /// </summary>
+        public XYZ StartPoint { get; set; }
+
+        /// <summary>
+        /// End Point
+        /// </summary>
+        public XYZ EndPoint { get; set; }
+        
         private void DefineAdvancedGridFields()
         {
             // get location curve
@@ -47,17 +51,25 @@
                 IsDefined = false;
                 return;
             }
-            // get curve type
-            if (curve is Line) CurveType = ElementCurveType.Line;
-            else if (curve is Arc) CurveType = ElementCurveType.Arc;
-            else
+
+            switch (curve)
             {
-                IsDefined = false;
-                return;
+                // get curve type
+                case Line _:
+                    CurveType = ElementCurveType.Line;
+                    break;
+                case Arc _:
+                    CurveType = ElementCurveType.Arc;
+                    break;
+                default:
+                    IsDefined = false;
+                    return;
             }
+
             // points
             StartPoint = curve.GetEndPoint(0);
             EndPoint = curve.GetEndPoint(1);
+            
             // get orientation
             Orientation = GeometryHelpers.GetElementOrientation(curve);
             if (Orientation == ElementOrientation.CloseToHorizontal ||
@@ -65,7 +77,5 @@
                 Orientation == ElementOrientation.Undefined)
                 IsDefined = false;
         }
-
-        #endregion
     }
 }
