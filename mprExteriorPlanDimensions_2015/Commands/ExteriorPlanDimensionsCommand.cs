@@ -1,22 +1,23 @@
-﻿using System;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprExteriorPlanDimensions.Body;
-using mprExteriorPlanDimensions.Configurations;
-using mprExteriorPlanDimensions.View;
-using mprExteriorPlanDimensions.Work;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprExteriorPlanDimensions.Commands
+﻿namespace mprExteriorPlanDimensions.Commands
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Body;
+    using Configurations;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+    using View;
+    using Work;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class ExteriorPlanDimensionsCommand : IExternalCommand
     {
         private const string LangItem = "mprExteriorPlanDimensions";
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             try
@@ -63,16 +64,17 @@ namespace mprExteriorPlanDimensions.Commands
                 return Result.Failed;
             }
         }
+
         private ExteriorConfiguration GetExteriorConfiguration()
         {
             try
             {
-                var defConfig = Guid.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                    "mprExteriorPlanDimensions",
-                    "DefaultExteriorConfiguration"), out var g)
+                var defConfig = Guid.TryParse(
+                    UserConfigFile.GetValue("mprExteriorPlanDimensions",  "DefaultExteriorConfiguration"), out var g)
                     ? g
                     : Guid.Empty;
-                if (defConfig == Guid.Empty) return null;
+                if (defConfig == Guid.Empty)
+                    return null;
 
                 var exteriorConfigurations = SettingsFile.LoadExteriorConfigurations();
                 
@@ -83,6 +85,7 @@ namespace mprExteriorPlanDimensions.Commands
                         return configuration;
                     }
                 }
+
                 if (exteriorConfigurations.Any())
                     return exteriorConfigurations[0];
                 return null;

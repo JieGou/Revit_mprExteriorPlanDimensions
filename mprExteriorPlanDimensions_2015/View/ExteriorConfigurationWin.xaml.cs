@@ -1,13 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using mprExteriorPlanDimensions.Configurations;
-
-namespace mprExteriorPlanDimensions.View
+﻿namespace mprExteriorPlanDimensions.View
 {
+    using System.Windows;
+    using System.Windows.Input;
+    using Configurations;
+
     public partial class ExteriorConfigurationWin
     {
         private const string LangItem = "mprExteriorPlanDimensions";
         public ExteriorConfiguration CurrentExteriorConfiguration;
+
         public ExteriorConfigurationWin(ExteriorConfiguration exteriorConfiguration = null)
         {
             InitializeComponent();
@@ -27,6 +28,7 @@ namespace mprExteriorPlanDimensions.View
                 ModPlusAPI.Windows.MessageBox.Show(ModPlusAPI.Language.GetItem(LangItem, "msg1"));
                 return;
             }
+
             if (!CurrentExteriorConfiguration.BottomDimensions &&
                 !CurrentExteriorConfiguration.LeftDimensions &&
                 !CurrentExteriorConfiguration.RightDimensions &&
@@ -47,12 +49,14 @@ namespace mprExteriorPlanDimensions.View
         private void BtDeleteSelectedChain_OnClick(object sender, RoutedEventArgs e)
         {
             var selectedChainIndex = DgChains.SelectedIndex;
-            if(selectedChainIndex != -1) CurrentExteriorConfiguration.Chains.RemoveAt(selectedChainIndex);
+            if (selectedChainIndex != -1)
+                CurrentExteriorConfiguration.Chains.RemoveAt(selectedChainIndex);
         }
 
         private void ExteriorConfigurationWin_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape) Close();
+            if (e.Key == Key.Escape)
+                Close();
         }
     }
 }

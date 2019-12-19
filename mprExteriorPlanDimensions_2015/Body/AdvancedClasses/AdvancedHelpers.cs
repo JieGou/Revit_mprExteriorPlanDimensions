@@ -8,14 +8,13 @@
 
     public static class AdvancedHelpers
     {
-
         /// <summary>Фильтр стен по пересечению секущей плоскостью секущего диапазона</summary>
         /// <param name="advancedWalls"></param>
         /// <param name="doc"></param>
         public static void FilterByCutPlan(List<AdvancedWall> advancedWalls, Document doc)
         {
             var checkedZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
-            for (int i = advancedWalls.Count - 1; i >= 0; i--)
+            for (var i = advancedWalls.Count - 1; i >= 0; i--)
             {
                 if (checkedZ < advancedWalls[i].GetMinZ() || checkedZ > advancedWalls[i].GetMaxZ())
                 {
@@ -29,8 +28,7 @@
         public static void FilterByWallWidth(List<AdvancedWall> advancedWalls)
         {
             var minWallWidth = int.TryParse(
-                UserConfigFile.GetValue(
-                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "MinWallWidth"), out var m)
+                UserConfigFile.GetValue("mprExteriorPlanDimensions", "MinWallWidth"), out var m)
                 ? m
                 : 50;
             for (var i = advancedWalls.Count - 1; i >= 0; i--)
@@ -61,6 +59,7 @@
             leftExtreme = new List<AdvancedWall>();
             topExtreme = new List<AdvancedWall>();
             bottomExtreme = new List<AdvancedWall>();
+
             // Нахожу "внешние" стены
             var outerWalls = GetOuterWalls(walls);
             if (!outerWalls.Any())
@@ -68,14 +67,11 @@
                 return;
             }
 
-            //ExportGeometryToXml.ExportAdvancedWallsFaces(outerWalls, "outer walls");
-
             for (var i = 0; i < outerWalls.Count; i++)
             {
-                AdvancedWall checkedWall = outerWalls[i];
+                var checkedWall = outerWalls[i];
                 if (checkedWall.Orientation == ElementOrientation.Vertical)
                 {
-
                     var leftPerpendicularLine = Line.CreateBound(
                         new XYZ(checkedWall.MidPoint.X - 1000000, checkedWall.MidPoint.Y, 0.0),
                         new XYZ(checkedWall.MidPoint.X, checkedWall.MidPoint.Y, 0.0));
@@ -84,7 +80,7 @@
                         new XYZ(checkedWall.MidPoint.X + 1000000, checkedWall.MidPoint.Y, 0.0));
                     var hasPerpendicularLeftIntersect = false;
                     var hasPerpendicularRightIntersect = false;
-                    for (int j = 0; j < outerWalls.Count; j++)
+                    for (var j = 0; j < outerWalls.Count; j++)
                     {
                         if (i == j)
                         {
@@ -126,7 +122,7 @@
                         new XYZ(checkedWall.MidPoint.X, checkedWall.MidPoint.Y - 1000000, 0.0));
                     var hasPerpendicularTopIntersect = false;
                     var hasPerpendicularBottomIntersect = false;
-                    for (int j = 0; j < outerWalls.Count; j++)
+                    for (var j = 0; j < outerWalls.Count; j++)
                     {
                         if (i == j)
                         {
@@ -159,11 +155,11 @@
                 }
             }
 
-            foreach (AdvancedWall checkedAdvancedWall in outerWalls)
+            foreach (var checkedAdvancedWall in outerWalls)
             {
                 if (checkedAdvancedWall.Orientation == ElementOrientation.Vertical)
                 {
-                    foreach (AdvancedWall wall in topExtreme)
+                    foreach (var wall in topExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
                         {
@@ -172,7 +168,7 @@
                         }
                     }
 
-                    foreach (AdvancedWall wall in bottomExtreme)
+                    foreach (var wall in bottomExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
                         {
@@ -183,7 +179,7 @@
                 }
                 else if (checkedAdvancedWall.Orientation == ElementOrientation.Horizontal)
                 {
-                    foreach (AdvancedWall wall in leftExtreme)
+                    foreach (var wall in leftExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
                         {
@@ -192,7 +188,7 @@
                         }
                     }
 
-                    foreach (AdvancedWall wall in rightExtreme)
+                    foreach (var wall in rightExtreme)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(wall))
                         {
@@ -213,7 +209,7 @@
         {
             var outerWalls = new List<AdvancedWall>();
 
-            for (int i = 0; i < walls.Count; i++)
+            for (var i = 0; i < walls.Count; i++)
             {
                 var checkedWall = walls[i];
                 if (checkedWall.Orientation == ElementOrientation.Vertical)
@@ -226,7 +222,7 @@
                         new XYZ(checkedWall.MidPoint.X + 1000000, checkedWall.MidPoint.Y, 0.0));
                     var hasLeftIntersect = false;
                     var hasRightIntersect = false;
-                    for (int j = 0; j < walls.Count; j++)
+                    for (var j = 0; j < walls.Count; j++)
                     {
                         if (i == j)
                         {
@@ -268,7 +264,7 @@
                         new XYZ(checkedWall.MidPoint.X, checkedWall.MidPoint.Y - 1000000, 0.0));
                     var hasTopIntersect = false;
                     var hasBottomIntersect = false;
-                    for (int j = 0; j < walls.Count; j++)
+                    for (var j = 0; j < walls.Count; j++)
                     {
                         if (i == j)
                         {
@@ -297,6 +293,7 @@
             }
 
             var ids = outerWalls.Select(wall => wall.Wall.Id.IntegerValue).ToList();
+
             // Этот вариант возьмет не все стены, поэтому делаю дополнительный цикл
             // Теперь ищу стены через LocationCurve.get_ElementsAtJoin
             var tempWalls = new List<AdvancedWall>();
@@ -306,7 +303,7 @@
                 {
                     var onFirstEnd = false;
                     var onSecondEnd = false;
-                    foreach (AdvancedWall outerWall in outerWalls)
+                    foreach (var outerWall in outerWalls)
                     {
                         if (checkedAdvancedWall.IsAdjoinToByLocationCurveEnds(outerWall, 0) &&
                             outerWall.IsAdjoinToByLocationCurveEnds(checkedAdvancedWall))
@@ -352,8 +349,8 @@
         public static bool IsAdjoinToByLocationCurveEnds(this AdvancedWall wall, AdvancedWall checkedWall)
         {
             var joinIds = new List<int>();
-            ElementArray elementsAtJoinAtStart = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(0);
-            ElementArray elementsAtJoinAtEnd = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(1);
+            var elementsAtJoinAtStart = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(0);
+            var elementsAtJoinAtEnd = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(1);
             if (!elementsAtJoinAtEnd.IsEmpty)
             {
                 foreach (Element e in elementsAtJoinAtEnd)
@@ -382,7 +379,7 @@
         private static bool IsAdjoinToByLocationCurveEnds(this AdvancedWall wall, AdvancedWall checkedWall, int end)
         {
             var joinIds = new List<int>();
-            ElementArray elementsAtJoin = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(end);
+            var elementsAtJoin = ((LocationCurve)wall.Wall.Location).get_ElementsAtJoin(end);
             if (!elementsAtJoin.IsEmpty)
             {
                 foreach (Element e in elementsAtJoin)
@@ -403,8 +400,11 @@
         /// <param name="extremeWallVariant">Вариант направления</param>
         /// <param name="offset">Отступ от крайней стены</param>
         /// <returns></returns>
-        public static Line GetDimensionLineForChain(Document doc,
-            List<AdvancedWall> sideWalls, ExtremeWallVariant extremeWallVariant, double offset)
+        public static Line GetDimensionLineForChain(
+            Document doc,
+            List<AdvancedWall> sideWalls,
+            ExtremeWallVariant extremeWallVariant,
+            double offset)
         {
             var cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
             var points = new List<XYZ>();
@@ -430,8 +430,7 @@
                         var maxY = points.Last().Y;
                         return TryCreateBound(
                             new XYZ(maxX + offset, minY, cutPlanZ),
-                            new XYZ(maxX + offset, maxY, cutPlanZ)
-                        );
+                            new XYZ(maxX + offset, maxY, cutPlanZ));
                     }
 
                 case ExtremeWallVariant.Left:
@@ -455,8 +454,7 @@
                         var maxY = points.Last().Y;
                         return TryCreateBound(
                             new XYZ(minX, maxY + offset, cutPlanZ),
-                            new XYZ(maxX, maxY + offset, cutPlanZ)
-                        );
+                            new XYZ(maxX, maxY + offset, cutPlanZ));
                     }
 
                 case ExtremeWallVariant.Bottom:
@@ -468,8 +466,7 @@
                         var minY = points.First().Y;
                         return TryCreateBound(
                             new XYZ(minX, minY - offset, cutPlanZ),
-                            new XYZ(maxX, minY - offset, cutPlanZ)
-                        );
+                            new XYZ(maxX, minY - offset, cutPlanZ));
                     }
             }
 
@@ -487,7 +484,7 @@
         /// <returns></returns>
         public static AdvancedWall GetAdvancedWallFromListById(IEnumerable<AdvancedWall> walls, int id)
         {
-            foreach (AdvancedWall advancedWall in walls)
+            foreach (var advancedWall in walls)
             {
                 if (advancedWall.Wall.Id.IntegerValue.Equals(id))
                 {

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Xml.Linq;
-using ModPlusAPI;
-
-namespace mprExteriorPlanDimensions.Configurations
+﻿namespace mprExteriorPlanDimensions.Configurations
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Xml.Linq;
+    using ModPlusAPI;
+
     /// <inheritdoc />
     /// <summary>Конфигурация образмеривания наружных стен </summary>
     public class ExteriorConfiguration : BaseConfiguration
     {
         private const string LangItem = "mprExteriorPlanDimensions";
-        
+
         #region Constructor
 
         public ExteriorConfiguration()
@@ -39,35 +39,55 @@ namespace mprExteriorPlanDimensions.Configurations
         #region Directions
 
         private bool _leftDimensions;
+
         /// <summary>Размеры слева от плана</summary>
         public bool LeftDimensions
         {
             get => _leftDimensions;
-            set { _leftDimensions = value; OnPropertyChanged(nameof(LeftDimensions)); }
+            set
+            {
+                _leftDimensions = value;
+                OnPropertyChanged(nameof(LeftDimensions));
+            }
         }
 
         private bool _rightDimensions;
+
         /// <summary>Размеры справа от плана</summary>
         public bool RightDimensions
         {
             get => _rightDimensions;
-            set { _rightDimensions = value; OnPropertyChanged(nameof(RightDimensions)); }
+            set
+            {
+                _rightDimensions = value;
+                OnPropertyChanged(nameof(RightDimensions));
+            }
         }
 
         private bool _topDimensions;
+
         /// <summary>Размеры сверху от плана</summary>
         public bool TopDimensions
         {
             get => _topDimensions;
-            set { _topDimensions = value; OnPropertyChanged(nameof(TopDimensions)); }
+            set
+            {
+                _topDimensions = value;
+                OnPropertyChanged(nameof(TopDimensions));
+            }
         }
 
         private bool _bottomDimensions;
+
         /// <summary>Размеры сверху от плана</summary>
         public bool BottomDimensions
         {
             get => _bottomDimensions;
-            set { _bottomDimensions = value; OnPropertyChanged(nameof(BottomDimensions)); }
+            set
+            {
+                _bottomDimensions = value;
+                OnPropertyChanged(nameof(BottomDimensions));
+            }
         }
 
         #endregion
@@ -75,6 +95,7 @@ namespace mprExteriorPlanDimensions.Configurations
         #endregion
 
         #region Methods
+
         /// <summary>Получение настроек образмеривания наружных стен из XElement</summary>
         /// <param name="xElement"></param>
         /// <returns></returns>
@@ -87,27 +108,35 @@ namespace mprExteriorPlanDimensions.Configurations
                     new ExteriorConfiguration(Guid.Parse(idAttr.Value))
                     {
                         Name = xElement.Attribute(nameof(Name))?.Value,
-                        BottomDimensions = !bool.TryParse(xElement.Attribute(nameof(BottomDimensions))?.Value, out bool b) || b,
+                        BottomDimensions = !bool.TryParse(xElement.Attribute(nameof(BottomDimensions))?.Value, out var b) || b,
                         LeftDimensions = !bool.TryParse(xElement.Attribute(nameof(LeftDimensions))?.Value, out b) || b,
                         TopDimensions = bool.TryParse(xElement.Attribute(nameof(TopDimensions))?.Value, out b) && b,
                         RightDimensions = bool.TryParse(xElement.Attribute(nameof(RightDimensions))?.Value, out b) && b
                     };
 
-
                 if (xElement.Elements(Constants.XElementName_Chain).Any())
-                    foreach (XElement element in xElement.Elements(Constants.XElementName_Chain))
+                {
+                    foreach (var element in xElement.Elements(Constants.XElementName_Chain))
+                    {
                         exteriorConfiguration.Chains.Add(ExteriorDimensionChain.GetExteriorDimensionChainFromXElement(element));
-                else exteriorConfiguration.Chains.Add(new ExteriorDimensionChain());
+                    }
+                }
+                else
+                {
+                    exteriorConfiguration.Chains.Add(new ExteriorDimensionChain());
+                }
 
                 return exteriorConfiguration;
             }
+
             throw new Exception(Language.GetItem(LangItem, "msg3"));
         }
+
         /// <summary>Получение XElement из экземпляра конфигурации для наружных стен</summary>
         /// <returns></returns>
         public XElement GetXElementFromExteriorConfigurationInstance()
         {
-            XElement xElement = new XElement(Constants.XElementName_ExteriorConfiguration);
+            var xElement = new XElement(Constants.XElementName_ExteriorConfiguration);
             xElement.SetAttributeValue(nameof(Id), Id);
             xElement.SetAttributeValue(nameof(Name), Name);
             xElement.SetAttributeValue(nameof(TopDimensions), TopDimensions);
@@ -115,7 +144,7 @@ namespace mprExteriorPlanDimensions.Configurations
             xElement.SetAttributeValue(nameof(LeftDimensions), LeftDimensions);
             xElement.SetAttributeValue(nameof(RightDimensions), RightDimensions);
 
-            foreach (ExteriorDimensionChain chain in Chains)
+            foreach (var chain in Chains)
             {
                 xElement.Add(chain.GetXElementFromDimensionChainInstance());
             }
@@ -131,10 +160,12 @@ namespace mprExteriorPlanDimensions.Configurations
         private void Chains_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (Chains.Any())
-                for (int i = 0; i < Chains.Count; i++)
+            {
+                for (var i = 0; i < Chains.Count; i++)
                 {
                     Chains[i].DisplayName = Language.GetItem(LangItem, "msg4") + (i + 1);
                 }
+            }
         }
 
         #endregion

@@ -1,9 +1,10 @@
-﻿using System.Xml.Linq;
-
-namespace mprExteriorPlanDimensions.Configurations
+﻿namespace mprExteriorPlanDimensions.Configurations
 {
+    using System.Xml.Linq;
+    using ModPlusAPI.Mvvm;
+
     /// <summary>Цепочка размеров для наружных стен</summary>
-    public class ExteriorDimensionChain : BaseNotify
+    public class ExteriorDimensionChain : VmBase
     {
         #region Constructors
 
@@ -22,14 +23,20 @@ namespace mprExteriorPlanDimensions.Configurations
         #region Properties
 
         private string _displayName;
+
         public string DisplayName
         {
             get => _displayName;
-            set { _displayName = value; OnPropertyChanged(nameof(DisplayName)); }
+            set
+            {
+                _displayName = value;
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
 
         private int _elementOffset;
-        /// <summary>Отступ от предыдущего элемента (стены или другой уепочки размеров)</summary>
+
+        /// <summary>Отступ от предыдущего элемента (стены или другой цепочки размеров)</summary>
         public int ElementOffset
         {
             get => _elementOffset;
@@ -41,6 +48,7 @@ namespace mprExteriorPlanDimensions.Configurations
         }
 
         private bool _walls;
+
         /// <summary>Ставить размеры по стенам</summary>
         public bool Walls
         {
@@ -57,6 +65,7 @@ namespace mprExteriorPlanDimensions.Configurations
                         Overall = false;
                         OnPropertyChanged(nameof(Overall));
                     }
+
                     if (ExtremeGrids)
                     {
                         ExtremeGrids = false;
@@ -70,11 +79,13 @@ namespace mprExteriorPlanDimensions.Configurations
                         IntersectingWalls = false;
                         OnPropertyChanged(nameof(IntersectingWalls));
                     }
+
                     if (Openings)
                     {
                         Openings = false;
                         OnPropertyChanged(nameof(Openings));
                     }
+
                     IntersectingWallsAndOpeningsVisibility = System.Windows.Visibility.Hidden;
                     if (!ExtremeGrids && !Overall)
                     {
@@ -86,6 +97,7 @@ namespace mprExteriorPlanDimensions.Configurations
         }
 
         private bool _intersectingWalls;
+
         /// <summary>Ставить размеры по пересекающимся стенам</summary>
         public bool IntersectingWalls
         {
@@ -98,6 +110,7 @@ namespace mprExteriorPlanDimensions.Configurations
         }
 
         private bool _openings;
+
         /// <summary>Ставить размеры по проемам</summary>
         public bool Openings
         {
@@ -110,12 +123,18 @@ namespace mprExteriorPlanDimensions.Configurations
         }
 
         private System.Windows.Visibility _intersectingWallsAndOpeningsVisibility;
+
         public System.Windows.Visibility IntersectingWallsAndOpeningsVisibility
         {
-            get => _intersectingWallsAndOpeningsVisibility; set { _intersectingWallsAndOpeningsVisibility = value;
-                OnPropertyChanged(nameof(IntersectingWallsAndOpeningsVisibility)); } }
+            get => _intersectingWallsAndOpeningsVisibility; set
+            {
+                _intersectingWallsAndOpeningsVisibility = value;
+                OnPropertyChanged(nameof(IntersectingWallsAndOpeningsVisibility));
+            }
+        }
 
         private bool _grids;
+
         /// <summary>Ставить размеры по разбивочным осям</summary>
         public bool Grids
         {
@@ -130,16 +149,14 @@ namespace mprExteriorPlanDimensions.Configurations
                         ExtremeGrids = false;
                         OnPropertyChanged(nameof(ExtremeGrids));
                     }
+
                     if (Overall)
                     {
                         Overall = false;
                         OnPropertyChanged(nameof(Overall));
                     }
                 }
-                else
-                {
-                    
-                }
+
                 OnPropertyChanged(nameof(Grids));
             }
         }
@@ -160,21 +177,25 @@ namespace mprExteriorPlanDimensions.Configurations
                         Walls = false;
                         OnPropertyChanged(nameof(Walls));
                     }
+
                     if (Openings)
                     {
                         Openings = false;
                         OnPropertyChanged(nameof(Openings));
                     }
+
                     if (IntersectingWalls)
                     {
                         IntersectingWalls = false;
                         OnPropertyChanged(nameof(IntersectingWalls));
                     }
+
                     if (Grids)
                     {
                         Grids = false;
                         OnPropertyChanged(nameof(Grids));
                     }
+
                     if (Overall)
                     {
                         Overall = false;
@@ -193,6 +214,7 @@ namespace mprExteriorPlanDimensions.Configurations
         }
 
         private bool _overall;
+
         public bool Overall
         {
             get => _overall;
@@ -207,21 +229,25 @@ namespace mprExteriorPlanDimensions.Configurations
                         Walls = false;
                         OnPropertyChanged(nameof(Walls));
                     }
+
                     if (Openings)
                     {
                         Openings = false;
                         OnPropertyChanged(nameof(Openings));
                     }
+
                     if (IntersectingWalls)
                     {
                         IntersectingWalls = false;
                         OnPropertyChanged(nameof(IntersectingWalls));
                     }
+
                     if (Grids)
                     {
                         Grids = false;
                         OnPropertyChanged(nameof(Grids));
                     }
+
                     if (ExtremeGrids)
                     {
                         ExtremeGrids = false;
@@ -230,7 +256,6 @@ namespace mprExteriorPlanDimensions.Configurations
                 }
                 else
                 {
-
                     if (!Walls && !ExtremeGrids && !Grids)
                     {
                         Walls = true;
@@ -243,28 +268,32 @@ namespace mprExteriorPlanDimensions.Configurations
         #endregion
 
         #region Methods
+
         /// <summary>Получение "цепочки" их xml-элемента</summary>
         /// <param name="xElement"></param>
         /// <returns></returns>
         public static ExteriorDimensionChain GetExteriorDimensionChainFromXElement(XElement xElement)
         {
             var edc = new ExteriorDimensionChain();
+
             // bools
-            edc.Walls = !bool.TryParse(xElement.Attribute(nameof(edc.Walls))?.Value, out bool b) || b; // true
+            edc.Walls = !bool.TryParse(xElement.Attribute(nameof(edc.Walls))?.Value, out var b) || b; // true
             edc.Grids = bool.TryParse(xElement.Attribute(nameof(edc.Grids))?.Value, out b) && b; // false
             edc.Openings = bool.TryParse(xElement.Attribute(nameof(edc.Openings))?.Value, out b) && b; // false
             edc.IntersectingWalls = bool.TryParse(xElement.Attribute(nameof(edc.IntersectingWalls))?.Value, out b) && b; // false
             edc.ExtremeGrids = bool.TryParse(xElement.Attribute(nameof(edc.ExtremeGrids))?.Value, out b) && b; // false
             edc.Overall = bool.TryParse(xElement.Attribute(nameof(edc.Overall))?.Value, out b) && b; // false
+
             // ints
-            edc.ElementOffset = int.TryParse(xElement.Attribute(nameof(edc.ElementOffset))?.Value, out int i) ? i : 8;
+            edc.ElementOffset = int.TryParse(xElement.Attribute(nameof(edc.ElementOffset))?.Value, out var i) ? i : 8;
 
             return edc;
         }
+
         /// <summary>Получение XElement из экземпляра класса "цепочки"</summary>
         public XElement GetXElementFromDimensionChainInstance()
         {
-            XElement xElement = new XElement(Constants.XElementName_Chain);
+            var xElement = new XElement(Constants.XElementName_Chain);
             xElement.SetAttributeValue(nameof(Walls), Walls);
             xElement.SetAttributeValue(nameof(IntersectingWalls), IntersectingWalls);
             xElement.SetAttributeValue(nameof(Openings), Openings);

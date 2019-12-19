@@ -35,6 +35,12 @@
     <CodeAnalysisRuleSet>$(SolutionDir)\ModPlus.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ModPlusAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModPlusAPI.1.3.1\lib\ModPlusAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="ModPlusService.Dto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModPlusAPI.1.3.1\lib\ModPlusService.Dto.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -57,6 +63,7 @@
     <Compile Include="Commands\ExteriorPlanDimensionsCommand.cs" />
     <Compile Include="Commands\ExteriorPlanDimensionsSettingsCommand.cs" />
     <Compile Include="Configurations\BaseConfiguration.cs" />
+    <Compile Include="Configurations\BaseNotify.cs" />
     <Compile Include="Configurations\Constants.cs" />
     <Compile Include="Configurations\CustomNotifyCollection.cs" />
     <Compile Include="Configurations\ExteriorConfiguration.cs" />
@@ -90,23 +97,11 @@
     <Resource Include="Resources\mprExteriorPlanDimensionsSettings_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ModPlus.Revit.API.2015">
-      <Version>1.0.0</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="ModPlusAPI">
-      <Version>1.3.1</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="ModPlusStyle">
-      <Version>1.3.0</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers">
-      <Version>1.1.118</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

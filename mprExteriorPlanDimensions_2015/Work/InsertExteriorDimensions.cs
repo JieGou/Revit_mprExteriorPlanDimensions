@@ -87,7 +87,7 @@
 
             AdvancedHelpers.FindExtremes(_advancedWalls, doc, out var leftExtreme, out var rightExtreme, out var topextreme, out var bottomExtreme);
 
-            using (TransactionGroup transactionGroup = new TransactionGroup(doc, _transactionName))
+            using (var transactionGroup = new TransactionGroup(doc, _transactionName))
             {
                 transactionGroup.Start();
 
@@ -228,7 +228,7 @@
                     }
                 }
             }
-            else // Иначе верх/низ
+            else //// Иначе верх/низ
             {
                 var horizontalGrids = _advancedGrids.Where(g => g.Orientation == ElementOrientation.Vertical).ToList();
                 horizontalGrids.Sort((g1, g2) => g1.StartPoint.X.CompareTo(g2.StartPoint.X));
@@ -489,6 +489,7 @@
             if (extremeWallVariant == ExtremeWallVariant.Right || extremeWallVariant == ExtremeWallVariant.Left)
             {
                 var faces = new List<AdvancedPlanarFace>();
+
                 // для каждой вертикальной стены нахожу соприкасающиеся горизонтальные стены
                 foreach (var verticalWall in verticalWalls)
                 {
@@ -727,16 +728,14 @@
             // Фильтрация ближайших граней: если расстояние между гранями меньше заданного в настройка,
             // то удалять из этой пары ту грань, которая указана в настройках (по длине грани)
             var minWidthSetting = int.TryParse(
-                UserConfigFile.GetValue(
-                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorFaceMinWidthBetween"), out var m)
+                UserConfigFile.GetValue(LangItem, "ExteriorFaceMinWidthBetween"), out var m)
                 ? m
                 : 100;
             var minWidthBetween = minWidthSetting * 0.00328084;
 
             // Вариант удаления: 0 - наименьший, 1 - наибольший
             var removeVariant = int.TryParse(
-                UserConfigFile.GetValue(
-                    UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorMinWidthFaceRemove"), out m)
+                UserConfigFile.GetValue(LangItem, "ExteriorMinWidthFaceRemove"), out m)
                 ? m
                 : 0;
             if (extremeWallVariant == ExtremeWallVariant.Bottom || extremeWallVariant == ExtremeWallVariant.Top)

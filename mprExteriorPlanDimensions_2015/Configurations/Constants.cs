@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-
-namespace mprExteriorPlanDimensions.Configurations
+﻿namespace mprExteriorPlanDimensions.Configurations
 {
+    using System.Collections.Generic;
+
     public class Constants
     {
-        // ReSharper disable InconsistentNaming
+#pragma warning disable SA1600 // Elements should be documented
+#pragma warning disable SA1310 // Field names should not contain underscore
+        //// ReSharper disable InconsistentNaming
         public const string XElementName_Root = "Configurations";
         public const string XElementName_Chain = "Chain";
         public const string XElementName_ExteriorConfiguration = "ExteriorConfiguration";
         public const string XElementName_ExteriorConfigurations = "ExteriorConfigurations";
-        // ReSharper restore InconsistentNaming
+        //// ReSharper restore InconsistentNaming
+#pragma warning restore SA1310 // Field names should not contain underscore
+#pragma warning restore SA1600 // Elements should be documented
 
         static Constants()
         {
@@ -22,6 +26,5 @@ namespace mprExteriorPlanDimensions.Configurations
 
         /// <summary>Допустимые величины отступа в мм, кратно 100</summary>
         public static List<int> ElementOffsets;
-        
     }
 }

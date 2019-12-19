@@ -32,27 +32,11 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-      <CodeAnalysisRuleSet>E:\DevProjects\ModPlus\Solutions\ModPlus.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(SolutionDir)\ModPlus.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ModPlusAPI">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ModPlusStyle">
-      <HintPath>..\..\..\..\..\..\..\ModPlus\Extensions\ModPlusStyle.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>C:\_Revit dlls\2016\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\_Revit dlls\2016\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -98,9 +82,6 @@
     </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\BaseConfiguration.cs">
       <Link>Configurations\BaseConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\BaseNotify.cs">
-      <Link>Configurations\BaseNotify.cs</Link>
     </Compile>
     <Compile Include="..\mprExteriorPlanDimensions_2015\Configurations\Constants.cs">
       <Link>Configurations\Constants.cs</Link>
@@ -159,11 +140,23 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+    <PackageReference Include="ModPlus.Revit.API.2016">
+      <Version>1.0.0</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModPlusAPI">
+      <Version>1.3.1</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModPlusStyle">
+      <Version>1.3.0</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.1.118</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

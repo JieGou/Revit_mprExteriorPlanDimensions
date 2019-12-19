@@ -1,21 +1,25 @@
-﻿using System;
-
-namespace mprExteriorPlanDimensions.Configurations
+﻿namespace mprExteriorPlanDimensions.Configurations
 {
+    using System;
+    using ModPlusAPI.Mvvm;
+
     /// <summary>Базовый класс Конфигурации</summary>
-    public class BaseConfiguration : BaseNotify
+    public class BaseConfiguration : VmBase
     {
-        #region Fields
+        private string _name;
+
         /// <summary>Идентификатор</summary>
         public Guid Id { get; set; }
 
-        private string _name;
         /// <summary>Название конфигурации</summary>
         public string Name
         {
             get => _name;
-            set { _name = value; OnPropertyChanged(nameof(Name)); }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
         }
-        #endregion
     }
 }

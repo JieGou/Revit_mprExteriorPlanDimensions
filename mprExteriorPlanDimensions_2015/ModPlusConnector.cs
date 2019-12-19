@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using ModPlusAPI.Interfaces;
-
+﻿#pragma warning disable SA1600 // Elements should be documented
 namespace mprExteriorPlanDimensions
 {
+    using System;
+    using System.Collections.Generic;
+    using ModPlusAPI.Interfaces;
+
     public class ModPlusConnector : IModPlusFunctionInterface
     {
         public SupportedProduct SupportedProduct => SupportedProduct.Revit;
@@ -40,9 +41,9 @@ namespace mprExteriorPlanDimensions
 
         public bool CanAddToRibbon => true;
 
-        public string FullDescription => "Функция позволяет в один клик проставить наружные размеры на плане этажа. Функция обрабатывает только горизонтальные и вертикальные стены и оси. Простановка наружных размеров происходит согласно текущей рабочей конфигурации, в которой указываются стороны простановки размеров и настройки размерных цепочек";
+        public string FullDescription => "Плагин позволяет в один клик проставить наружные размеры на плане этажа. Плагин обрабатывает только горизонтальные и вертикальные стены и оси. Простановка наружных размеров происходит согласно текущей рабочей конфигурации, в которой указываются стороны простановки размеров и настройки размерных цепочек";
 
-        public string ToolTipHelpImage => "";
+        public string ToolTipHelpImage => string.Empty;
 
         public List<string> SubFunctionsNames => new List<string> { "mprExteriorPlanDimensionsSettings" };
 
@@ -50,10 +51,11 @@ namespace mprExteriorPlanDimensions
 
         public List<string> SubDescriptions => new List<string> { "Настройки рабочих конфигураций для наружных размеров на плане этажа" };
 
-        public List<string> SubFullDescriptions => new List<string> { "" };
+        public List<string> SubFullDescriptions => new List<string> { string.Empty };
 
-        public List<string> SubHelpImages => new List<string> { "" };
+        public List<string> SubHelpImages => new List<string> { string.Empty };
 
         public List<string> SubClassNames => new List<string> { "mprExteriorPlanDimensions.Commands.ExteriorPlanDimensionsSettingsCommand" };
     }
 }
+#pragma warning restore SA1600 // Elements should be documented

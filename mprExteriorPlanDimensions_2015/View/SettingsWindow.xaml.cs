@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using mprExteriorPlanDimensions.Body;
-using mprExteriorPlanDimensions.Configurations;
-using ModPlusAPI;
-using ModPlusAPI.Windows;
-
-namespace mprExteriorPlanDimensions.View
+﻿namespace mprExteriorPlanDimensions.View
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using Body;
+    using Configurations;
+    using ModPlusAPI;
+    using ModPlusAPI.Windows;
+
     public partial class SettingsWindow 
     {
         private const string LangItem = "mprExteriorPlanDimensions";
@@ -19,37 +19,37 @@ namespace mprExteriorPlanDimensions.View
             InitializeComponent();
             Title = ModPlusAPI.Language.GetItem(LangItem, "h1");
         }
+
         private ObservableCollection<ExteriorConfiguration> _exteriorConfigurations;
+
         private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             GetExteriorConfigurations();
+
             // load settings
-            var minWidthSetting = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions",
-                "ExteriorFaceMinWidthBetween"), out int m)
+            var minWidthSetting = int.TryParse(
+                UserConfigFile.GetValue(LangItem, "ExteriorFaceMinWidthBetween"), out int m)
                 ? m
                 : 100;
             TbExteriorFaceMinWidthBetween.Text = minWidthSetting.ToString();
-            CbExteriorMinWidthFaceRemove.SelectedIndex = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions",
-                "ExteriorMinWidthFaceRemove"), out m)
+            CbExteriorMinWidthFaceRemove.SelectedIndex = int.TryParse(
+                UserConfigFile.GetValue(LangItem, "ExteriorMinWidthFaceRemove"), out m)
                 ? m
                 : 0;
-            var minWallWidth = int.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                "mprExteriorPlanDimensions",
-                "MinWallWidth"), out m)
+            var minWallWidth = int.TryParse(
+                UserConfigFile.GetValue(LangItem, "MinWallWidth"), out m)
                 ? m
                 : 50;
             TbMinWallWidth.Text = minWallWidth.ToString();
         }
+
         // Загрузка Конфигураций для наружных стен из файла
         private void GetExteriorConfigurations()
         {
             try
             {
-                var defConfig = Guid.TryParse(UserConfigFile.GetValue(UserConfigFile.ConfigFileZone.Settings,
-                    "mprExteriorPlanDimensions",
-                    "DefaultExteriorConfiguration"), out Guid g)
+                var defConfig = Guid.TryParse(
+                    UserConfigFile.GetValue(LangItem, "DefaultExteriorConfiguration"), out Guid g)
                     ? g
                     : Guid.Empty;
                 if (defConfig == Guid.Empty)
@@ -59,6 +59,7 @@ namespace mprExteriorPlanDimensions.View
                     _exteriorConfigurations = new ObservableCollection<ExteriorConfiguration>();
                     return;
                 }
+
                 _exteriorConfigurations = SettingsFile.LoadExteriorConfigurations();
                 CbExteriorConfigurations.ItemsSource = _exteriorConfigurations;
                 var index = 0;
@@ -70,6 +71,7 @@ namespace mprExteriorPlanDimensions.View
                         break;
                     }
                 }
+
                 CbExteriorConfigurations.SelectedIndex = index;
                 if (!_exteriorConfigurations.Any())
                 {
@@ -82,12 +84,15 @@ namespace mprExteriorPlanDimensions.View
                 ExceptionBox.Show(exception);
             }
         }
+
         private void CbExteriorConfigurations_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count == 0) return;
-            UserConfigFile.SetValue(UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions",
-                "DefaultExteriorConfiguration", ((ExteriorConfiguration) e.AddedItems[0]).Id.ToString(), true);
+            if (e.AddedItems.Count == 0)
+                return;
+            UserConfigFile.SetValue(
+                LangItem, "DefaultExteriorConfiguration", ((ExteriorConfiguration)e.AddedItems[0]).Id.ToString(), true);
         }
+
         // Add new Exterior Configuration
         private void BtAddNewExteriorConfiguration_OnClick(object sender, RoutedEventArgs e)
         {
@@ -115,17 +120,19 @@ namespace mprExteriorPlanDimensions.View
                 ShowDialog();
             }
         }
+
         // Edit Exterior Configuration
         private void BtEditExteriorConfiguration_OnClick(object sender, RoutedEventArgs e)
         {
             Hide();
             try
             {
-                if (CbExteriorConfigurations.SelectedIndex == -1) return;
+                if (CbExteriorConfigurations.SelectedIndex == -1)
+                    return;
                 var selected = (ExteriorConfiguration)CbExteriorConfigurations.SelectedItem;
                 var selectedIndex = CbExteriorConfigurations.SelectedIndex;
 
-                ExteriorConfigurationWin win = new ExteriorConfigurationWin(selected) { Title =  ModPlusAPI.Language.GetItem(LangItem, "h15")  };
+                ExteriorConfigurationWin win = new ExteriorConfigurationWin(selected) { Title = ModPlusAPI.Language.GetItem(LangItem, "h15") };
                 var result = win.ShowDialog();
                 if (result == true)
                 {
@@ -145,10 +152,12 @@ namespace mprExteriorPlanDimensions.View
                 ShowDialog();
             }
         }
+
         // delete configuration
         private void BtDeleteExteriorConfiguration_OnClick(object sender, RoutedEventArgs e)
         {
-            if (CbExteriorConfigurations.SelectedIndex == -1) return;
+            if (CbExteriorConfigurations.SelectedIndex == -1)
+                return;
             var selected = (ExteriorConfiguration)CbExteriorConfigurations.SelectedItem;
             var selectedIndex = CbExteriorConfigurations.SelectedIndex;
             if (ModPlusAPI.Windows.MessageBox.ShowYesNo(
@@ -176,7 +185,8 @@ namespace mprExteriorPlanDimensions.View
             var tb = sender as TextBox;
 
             var newText = tb?.Text;
-            if (string.IsNullOrEmpty(newText)) return;
+            if (string.IsNullOrEmpty(newText))
+                return;
 
             if (!int.TryParse(newText, out int _))
                 newText = newText.Remove(newText.Length - 1);
@@ -188,12 +198,12 @@ namespace mprExteriorPlanDimensions.View
         private void SettingsWindow_OnClosed(object sender, EventArgs e)
         {
             // save settings
-            UserConfigFile.SetValue(UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorFaceMinWidthBetween",
-                TbExteriorFaceMinWidthBetween.Text, false);
-            UserConfigFile.SetValue(UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "MinWallWidth",
-                TbMinWallWidth.Text, false);
-            UserConfigFile.SetValue(UserConfigFile.ConfigFileZone.Settings, "mprExteriorPlanDimensions", "ExteriorMinWidthFaceRemove",
-                CbExteriorMinWidthFaceRemove.SelectedIndex.ToString(), false);
+            UserConfigFile.SetValue(
+                LangItem, "ExteriorFaceMinWidthBetween", TbExteriorFaceMinWidthBetween.Text, false);
+            UserConfigFile.SetValue(
+                LangItem, "MinWallWidth", TbMinWallWidth.Text, false);
+            UserConfigFile.SetValue(
+                LangItem, "ExteriorMinWidthFaceRemove", CbExteriorMinWidthFaceRemove.SelectedIndex.ToString(), false);
             UserConfigFile.SaveConfigFile();
         }
     }

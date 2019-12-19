@@ -1,10 +1,10 @@
-﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using mprExteriorPlanDimensions.View;
-
-namespace mprExteriorPlanDimensions.Commands
+﻿namespace mprExteriorPlanDimensions.Commands
 {
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using View;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class ExteriorPlanDimensionsSettingsCommand : IExternalCommand
