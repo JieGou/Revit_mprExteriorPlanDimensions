@@ -16,7 +16,7 @@
     public class InsertExteriorDimensions
     {
         private const string LangItem = "mprExteriorPlanDimensions";
-        private string _transactionName;
+        private readonly string _transactionName;
         private readonly ExteriorConfiguration _exteriorConfiguration;
         private readonly UIApplication _uiApplication;
         private readonly List<AdvancedWall> _advancedWalls;
@@ -92,15 +92,14 @@
                 transactionGroup.Start();
 
                 // create dimensions
-                var createdDimensions = new List<Dimension>();
                 if (_exteriorConfiguration.RightDimensions)
-                    createdDimensions.AddRange(CreateSideDimensions(rightExtreme, _advancedWalls, ExtremeWallVariant.Right));
+                    CreateSideDimensions(rightExtreme, _advancedWalls, ExtremeWallVariant.Right);
                 if (_exteriorConfiguration.LeftDimensions)
-                    createdDimensions.AddRange(CreateSideDimensions(leftExtreme, _advancedWalls, ExtremeWallVariant.Left));
+                    CreateSideDimensions(leftExtreme, _advancedWalls, ExtremeWallVariant.Left);
                 if (_exteriorConfiguration.TopDimensions)
-                    createdDimensions.AddRange(CreateSideDimensions(topextreme, _advancedWalls, ExtremeWallVariant.Top));
+                    CreateSideDimensions(topextreme, _advancedWalls, ExtremeWallVariant.Top);
                 if (_exteriorConfiguration.BottomDimensions)
-                    createdDimensions.AddRange(CreateSideDimensions(bottomExtreme, _advancedWalls, ExtremeWallVariant.Bottom));
+                    CreateSideDimensions(bottomExtreme, _advancedWalls, ExtremeWallVariant.Bottom);
 
                 transactionGroup.Assimilate();
             }
@@ -127,7 +126,8 @@
             }
         }
 
-        private List<Dimension> CreateSideDimensions(List<AdvancedWall> sideAdvancedWalls, List<AdvancedWall> allWalls, ExtremeWallVariant extremeWallVariant)
+        private List<Dimension> CreateSideDimensions(
+            List<AdvancedWall> sideAdvancedWalls, List<AdvancedWall> allWalls, ExtremeWallVariant extremeWallVariant)
         {
             var createdDimensions = new List<Dimension>();
             var doc = _uiApplication.ActiveUIDocument.Document;
@@ -144,7 +144,7 @@
                 // Получаю линию для построения размера с учетом масштаба
                 var chainDimensionLine = AdvancedHelpers.GetDimensionLineForChain(
                     doc, sideAdvancedWalls, extremeWallVariant,
-                    chainOffsetSumm * 0.00328084 * doc.ActiveView.Scale);
+                    chainOffsetSumm.MmToFt() * doc.ActiveView.Scale);
 
                 if (chainDimensionLine == null)
                 {
@@ -731,7 +731,7 @@
                 UserConfigFile.GetValue(LangItem, "ExteriorFaceMinWidthBetween"), out var m)
                 ? m
                 : 100;
-            var minWidthBetween = minWidthSetting * 0.00328084;
+            var minWidthBetween = minWidthSetting.MmToFt();
 
             // Вариант удаления: 0 - наименьший, 1 - наибольший
             var removeVariant = int.TryParse(

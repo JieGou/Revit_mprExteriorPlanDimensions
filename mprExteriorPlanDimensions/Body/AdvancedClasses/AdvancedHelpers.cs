@@ -52,8 +52,7 @@
             out List<AdvancedWall> leftExtreme,
             out List<AdvancedWall> rightExtreme,
             out List<AdvancedWall> topExtreme,
-            out List<AdvancedWall> bottomExtreme
-        )
+            out List<AdvancedWall> bottomExtreme)
         {
             rightExtreme = new List<AdvancedWall>();
             leftExtreme = new List<AdvancedWall>();
@@ -412,6 +411,7 @@
             {
                 points.Add(wall.EndPoint);
                 points.Add(wall.StartPoint);
+                points.AddRange(wall.GetPointsFromGeometry(doc.ActiveView));
             }
 
             if (!points.Any())
@@ -475,7 +475,9 @@
         
         public static Line TryCreateBound(XYZ pt1, XYZ pt2)
         {
-            return pt1.IsAlmostEqualTo(pt2) ? null : Line.CreateBound(pt1, pt2);
+            if (pt1.DistanceTo(pt2) < 1.MmToFt())
+                return null;
+            return Line.CreateBound(pt1, pt2);
         }
        
         /// <summary>Выбор стены из списка по Id</summary>
@@ -501,6 +503,42 @@
         public static double GetMaxWallWidthFromList(IEnumerable<AdvancedWall> walls)
         {
             return walls.Select(w => w.Wall.Width).Max();
+        }
+
+        public static double MmToFt(this double mm)
+        {
+            return UnitUtils.ConvertToInternalUnits(mm, DisplayUnitType.DUT_MILLIMETERS);
+        }
+
+        public static double MmToFt(this int mm)
+        {
+            return UnitUtils.ConvertToInternalUnits(mm, DisplayUnitType.DUT_MILLIMETERS);
+        }
+
+        private static List<XYZ> GetPointsFromGeometry(this AdvancedWall advancedWall, View view)
+        {
+            var points = new List<XYZ>();
+            foreach (var geometryObject in advancedWall.Wall.get_Geometry(new Options()
+            {
+                ComputeReferences = false,
+                IncludeNonVisibleObjects = false,
+                View = view
+            }))
+            {
+                if (geometryObject is Solid solid)
+                {
+                    foreach (Edge edge in solid.Edges)
+                    {
+                        foreach (var xyz in edge.Tessellate())
+                        {
+                            if (!points.Contains(xyz))
+                                points.Add(xyz);
+                        }
+                    }
+                }
+            }
+
+            return points;
         }
     }
 }

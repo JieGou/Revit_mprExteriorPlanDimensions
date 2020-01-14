@@ -1,18 +1,28 @@
 ﻿namespace mprExteriorPlanDimensions.Body.Enumerators
 {
-    /// <summary>Вариант "крайней" стены</summary>
+    /// <summary>
+    /// Вариант "крайней" стены
+    /// </summary>
     public enum ExtremeWallVariant
     {
-        /// <summary>Левая</summary>
+        /// <summary>
+        /// Левая
+        /// </summary>
         Left,
         
-        /// <summary>Правая</summary>
+        /// <summary>
+        /// Правая
+        /// </summary>
         Right,
         
-        /// <summary>Верхняя</summary>
+        /// <summary>
+        /// Верхняя
+        /// </summary>
         Top,
         
-        /// <summary>Нижняя</summary>
+        /// <summary>
+        /// Нижняя
+        /// </summary>
         Bottom
     }
 }

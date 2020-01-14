@@ -6,7 +6,15 @@
     /// <summary>Цепочка размеров для наружных стен</summary>
     public class ExteriorDimensionChain : VmBase
     {
-        #region Constructors
+        private string _displayName;
+        private int _elementOffset;
+        private bool _walls;
+        private bool _intersectingWalls;
+        private bool _openings;
+        private System.Windows.Visibility _intersectingWallsAndOpeningsVisibility;
+        private bool _grids;
+        private bool _extremeGrids;
+        private bool _overall;
 
         public ExteriorDimensionChain()
         {
@@ -17,13 +25,7 @@
             _elementOffset = 8;
             _extremeGrids = false;
         }
-
-        #endregion
-
-        #region Properties
-
-        private string _displayName;
-
+        
         public string DisplayName
         {
             get => _displayName;
@@ -34,9 +36,9 @@
             }
         }
 
-        private int _elementOffset;
-
-        /// <summary>Отступ от предыдущего элемента (стены или другой цепочки размеров)</summary>
+        /// <summary>
+        /// Отступ от предыдущего элемента (стены или другой цепочки размеров)
+        /// </summary>
         public int ElementOffset
         {
             get => _elementOffset;
@@ -46,8 +48,6 @@
                 OnPropertyChanged(nameof(ElementOffset));
             }
         }
-
-        private bool _walls;
 
         /// <summary>Ставить размеры по стенам</summary>
         public bool Walls
@@ -96,8 +96,6 @@
             }
         }
 
-        private bool _intersectingWalls;
-
         /// <summary>Ставить размеры по пересекающимся стенам</summary>
         public bool IntersectingWalls
         {
@@ -108,8 +106,6 @@
                 OnPropertyChanged(nameof(IntersectingWalls));
             }
         }
-
-        private bool _openings;
 
         /// <summary>Ставить размеры по проемам</summary>
         public bool Openings
@@ -122,8 +118,6 @@
             }
         }
 
-        private System.Windows.Visibility _intersectingWallsAndOpeningsVisibility;
-
         public System.Windows.Visibility IntersectingWallsAndOpeningsVisibility
         {
             get => _intersectingWallsAndOpeningsVisibility; set
@@ -132,8 +126,6 @@
                 OnPropertyChanged(nameof(IntersectingWallsAndOpeningsVisibility));
             }
         }
-
-        private bool _grids;
 
         /// <summary>Ставить размеры по разбивочным осям</summary>
         public bool Grids
@@ -160,8 +152,6 @@
                 OnPropertyChanged(nameof(Grids));
             }
         }
-
-        private bool _extremeGrids;
 
         public bool ExtremeGrids
         {
@@ -213,8 +203,6 @@
             }
         }
 
-        private bool _overall;
-
         public bool Overall
         {
             get => _overall;
@@ -264,11 +252,7 @@
                 }
             }
         }
-
-        #endregion
-
-        #region Methods
-
+        
         /// <summary>Получение "цепочки" их xml-элемента</summary>
         /// <param name="xElement"></param>
         /// <returns></returns>
@@ -304,7 +288,5 @@
 
             return xElement;
         }
-
-        #endregion
     }
 }
