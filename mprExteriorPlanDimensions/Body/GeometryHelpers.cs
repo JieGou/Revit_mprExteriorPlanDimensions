@@ -38,10 +38,10 @@
                 : ElementOrientation.CloseToVertical;
         }
 
-        public static double GetViewPlanCutPlaneElevation(ViewPlan viewPlan, Document doc)
+        public static double GetViewPlanCutPlaneElevation(ViewPlan viewPlan)
         {
             var planViewRange = viewPlan.GetViewRange();
-            return planViewRange.GetOffset(PlanViewPlane.CutPlane) + viewPlan.GenLevel.Elevation;
+            return planViewRange.GetOffset(PlanViewPlane.CutPlane) + viewPlan.GenLevel.ProjectElevation;
         }
         
         public static bool IsHorizontal(this PlanarFace face)

@@ -25,6 +25,8 @@ class Build : NukeBuild
             var project = Solution.GetProject(PluginName);
             if (project == null)
                 throw new FileNotFoundException("Not found!");
+
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             
             var postBuild = Environment.GetEnvironmentVariable("ModPlusPostBuild");
             var build = new List<string>();

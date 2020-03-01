@@ -36,7 +36,7 @@
         public void DoWork()
         {
             var doc = _uiApplication.ActiveUIDocument.Document;
-            _cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
+            _cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView);
 
             // select
             var selectedElements = SelectElements();

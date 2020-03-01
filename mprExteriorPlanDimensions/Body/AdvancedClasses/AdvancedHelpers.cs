@@ -13,7 +13,7 @@
         /// <param name="doc"></param>
         public static void FilterByCutPlan(List<AdvancedWall> advancedWalls, Document doc)
         {
-            var checkedZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
+            var checkedZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView);
             for (var i = advancedWalls.Count - 1; i >= 0; i--)
             {
                 if (checkedZ < advancedWalls[i].GetMinZ() || checkedZ > advancedWalls[i].GetMaxZ())
@@ -405,7 +405,7 @@
             ExtremeWallVariant extremeWallVariant,
             double offset)
         {
-            var cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView, doc);
+            var cutPlanZ = GeometryHelpers.GetViewPlanCutPlaneElevation((ViewPlan)doc.ActiveView);
             var points = new List<XYZ>();
             foreach (var wall in sideWalls)
             {
