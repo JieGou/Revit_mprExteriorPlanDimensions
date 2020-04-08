@@ -11,18 +11,18 @@
     <AssemblyName>mprExteriorPlanDimensions</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <!-- For All -->
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>none</DebugType>
     <CodeAnalysisRuleSet>$(SolutionDir)\ModPlus.ruleset</CodeAnalysisRuleSet>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;R2015</DefineConstants>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;R2021</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
@@ -63,6 +63,12 @@
     <DefineConstants>TRACE;R2020</DefineConstants>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AssemblyName>$(AssemblyName)_2020</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R2021|x64'">
+    <OutputPath>bin\x64\R2021\</OutputPath>
+    <DefineConstants>TRACE;R2021</DefineConstants>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)_2021</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -161,9 +167,17 @@
         </PackageReference>
       </ItemGroup>
     </When>
-    <When Condition=" '$(Configuration)'=='R2020' or '$(Configuration)'=='Debug'">
+    <When Condition=" '$(Configuration)'=='R2020' ">
       <ItemGroup>
         <PackageReference Include="ModPlus.Revit.API.2020">
+          <Version>1.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2021' or '$(Configuration)'=='Debug' ">
+      <ItemGroup>
+        <PackageReference Include="ModPlus.Revit.API.2021">
           <Version>1.0.0</Version>
           <ExcludeAssets>runtime</ExcludeAssets>
         </PackageReference>
@@ -176,11 +190,11 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="ModPlusAPI">
-      <Version>1.3.1</Version>
+      <Version>1.6.0</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="ModPlusStyle">
-      <Version>1.3.0</Version>
+      <Version>2.0.0</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
@@ -190,9 +204,4 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
-"$(ModPlusPostBuild)" "Revit" "$(TargetPath)" "s"
-)</PostBuildEvent>
-  </PropertyGroup>
 </Project>
